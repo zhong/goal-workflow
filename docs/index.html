@@ -899,5 +899,476 @@
       goal-workflow · AI-driven development workflow · github.com/smallnest/goal-workflow
     </p>
   </div>
+
+  <!-- Particles Background Canvas -->
+  <canvas id="particles-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+
+  <script type="module">
+  import { animate, stagger } from 'https://cdn.jsdmirror.com/npm/animejs/+esm';
+
+  // Set container above particles
+  document.querySelector('.container').style.position = 'relative';
+  document.querySelector('.container').style.zIndex = '1';
+
+  // ===== 1. PARTICLE BACKGROUND =====
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  const PARTICLE_COUNT = 60;
+  const colors = ['#D97757', '#5B8A72', '#8B6F8A', '#4A6FA5', '#C96464'];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  function createParticle() {
+    return {
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 3 + 1,
+      speedX: (Math.random() - 0.5) * 0.5,
+      speedY: (Math.random() - 0.5) * 0.5,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      opacity: Math.random() * 0.3 + 0.1
+    };
+  }
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push(createParticle());
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.opacity;
+      ctx.fill();
+      p.x += p.speedX;
+      p.y += p.speedY;
+      if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+    });
+
+    // Draw connection lines
+    ctx.globalAlpha = 1;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = particles[i].color;
+          ctx.globalAlpha = (1 - dist / 120) * 0.08;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+
+  // ===== 2. INITIAL PAGE LOAD ANIMATION =====
+
+  // Only hide container-level sections for load animation
+  // Inner elements are handled by scroll observer
+  document.querySelectorAll('.toc, .header, .footer').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+  });
+
+  // Header entrance
+  animate('.header', {
+    opacity: [0, 1],
+    translateY: [40, 0],
+    duration: 900,
+    ease: 'easeOutExpo'
+  });
+
+  // Pulse dot special animation
+  animate('.pulse-dot', {
+    scale: [0, 1],
+    duration: 600,
+    ease: 'easeOutElastic(1, .6)',
+    onComplete: function() {
+      document.querySelector('.pulse-dot').style.animation = 'pulse 2.5s ease-in-out infinite';
+    }
+  });
+
+  // Title text reveal
+  animate('h1', {
+    opacity: [0, 1],
+    translateX: [-30, 0],
+    duration: 800,
+    delay: 200,
+    ease: 'easeOutExpo'
+  });
+
+  // Subtitle fade in
+  animate('.subtitle, .diagram-desc', {
+    opacity: [0, 1],
+    translateY: [15, 0],
+    duration: 700,
+    delay: stagger(150, {start: 400}),
+    ease: 'easeOutCubic'
+  });
+
+  // TOC slide in
+  animate('.toc', {
+    opacity: [0, 1],
+    translateY: [30, 0],
+    duration: 800,
+    delay: 600,
+    ease: 'easeOutCubic',
+    onComplete: function() {
+      animate('.toc li', {
+        opacity: [0, 1],
+        translateX: [-20, 0],
+        delay: stagger(60),
+        duration: 400,
+        ease: 'easeOutCubic'
+      });
+    }
+  });
+
+  // Sections are NOT animated on load — they use scroll observer instead
+
+  // Footer
+  animate('.footer', {
+    opacity: [0, 1],
+    translateY: [20, 0],
+    duration: 600,
+    delay: 1800,
+    ease: 'easeOutCubic'
+  });
+
+  // ===== 3. SECTION DOT — handled by scroll observer via .section-title =====
+
+  // ===== 4. CARD ENTRANCE — handled by scroll observer =====
+
+  // ===== 5. FLOW STEPS — handled by scroll observer =====
+
+  // ===== 6. SVG DIAGRAM — handled by scroll observer =====
+
+  // ===== 7. BADGE — handled by scroll observer =====
+
+  // ===== 8. CODE BLOCK SHIMMER — shimmer runs when code block scrolls in =====
+
+  // ===== 9. SCROLL-TRIGGERED ANIMATIONS =====
+
+  // Hide scroll-reveal elements initially
+  const scrollRevealTargets = '.section .section-title, .section p, .section pre, .section table, .section .cards, .section .note, .section .tip, .step-list li, .section .diagram-box, .section .flow-step, .section .flow-connector, .section .diagram-desc, .section img';
+  document.querySelectorAll(scrollRevealTargets).forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'none';
+    el.dataset.scrollReveal = 'true';
+  });
+
+  // Also hide tables and note/tip at top level
+  document.querySelectorAll('table, .note, .tip').forEach(el => {
+    if (!el.dataset.scrollReveal) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.dataset.scrollReveal = 'true';
+    }
+  });
+
+  const scrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+
+        // Step list items
+        if (el.classList.contains('step-list')) {
+          animate(el.querySelectorAll('li'), {
+            opacity: [0, 1],
+            translateX: [-20, 0],
+            delay: stagger(80),
+            duration: 500,
+            ease: 'easeOutCubic'
+          });
+          scrollObserver.unobserve(el);
+          return;
+        }
+
+        // Individual scroll-reveal elements
+        if (el.dataset.scrollReveal === 'true') {
+          // Determine animation type based on element
+          if (el.tagName === 'PRE') {
+            // Code blocks: slide from left with shimmer
+            animate(el, {
+              opacity: [0, 1],
+              translateX: [-30, 0],
+              duration: 600,
+              ease: 'easeOutCubic'
+            });
+          } else if (el.classList.contains('cards')) {
+            // Cards container: stagger children
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+            el.querySelectorAll('.card').forEach((card, i) => {
+              card.style.opacity = '0';
+              card.style.transform = 'perspective(600px) rotateY(-15deg)';
+              animate(card, {
+                opacity: [0, 1],
+                rotateY: [-15, 0],
+                translateX: [-30, 0],
+                duration: 700,
+                delay: i * 120,
+                ease: 'easeOutExpo'
+              });
+            });
+          } else if (el.tagName === 'TABLE') {
+            // Tables: row-by-row
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+            animate(el.querySelectorAll('tr'), {
+              opacity: [0, 1],
+              translateY: [10, 0],
+              delay: stagger(60),
+              duration: 400,
+              ease: 'easeOutCubic'
+            });
+          } else if (el.classList.contains('note') || el.classList.contains('tip')) {
+            // Notes/tips: slide from left with border growing
+            animate(el, {
+              opacity: [0, 1],
+              translateX: [-25, 0],
+              borderLeftWidth: [0, 3],
+              duration: 600,
+              ease: 'easeOutCubic'
+            });
+          } else if (el.classList.contains('diagram-box')) {
+            // Diagram box: scale up
+            animate(el, {
+              opacity: [0, 1],
+              scale: [0.95, 1],
+              duration: 700,
+              ease: 'easeOutCubic'
+            });
+          } else if (el.classList.contains('flow-step')) {
+            const parent = el.closest('.flow-arrow');
+            const siblings = parent ? parent.querySelectorAll('.flow-step') : [el];
+            const idx = Array.from(siblings).indexOf(el);
+            animate(el, {
+              opacity: [0, 1],
+              scale: [0.5, 1],
+              duration: 500,
+              delay: idx * 150,
+              ease: 'easeOutBack'
+            });
+          } else if (el.classList.contains('flow-connector')) {
+            const parent = el.closest('.flow-arrow');
+            const siblings = parent ? parent.querySelectorAll('.flow-connector') : [el];
+            const idx = Array.from(siblings).indexOf(el);
+            animate(el, {
+              opacity: [0, 1],
+              translateX: [-10, 0],
+              duration: 300,
+              delay: idx * 150 + 80,
+              ease: 'easeOutCubic'
+            });
+          } else if (el.tagName === 'IMG') {
+            // Images: clip reveal
+            animate(el, {
+              opacity: [0, 1],
+              clipPath: ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'],
+              duration: 1000,
+              ease: 'easeInOutCubic'
+            });
+          } else if (el.classList.contains('section-title')) {
+            // Section title (dot + h3) as one unit
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+            const dot = el.querySelector('.section-dot');
+            const h3 = el.querySelector('h3');
+            if (dot) {
+              animate(dot, {
+                scale: [0, 1],
+                duration: 500,
+                ease: 'easeOutElastic(1, .5)'
+              });
+            }
+            if (h3) {
+              animate(h3, {
+                opacity: [0, 1],
+                translateX: [-20, 0],
+                duration: 500,
+                delay: 150,
+                ease: 'easeOutCubic'
+              });
+            }
+          } else if (el.tagName === 'H3') {
+            // Headings: slide from left
+            animate(el, {
+              opacity: [0, 1],
+              translateX: [-20, 0],
+              duration: 500,
+              ease: 'easeOutCubic'
+            });
+          } else {
+            // Default: fade up
+            animate(el, {
+              opacity: [0, 1],
+              translateY: [20, 0],
+              duration: 500,
+              ease: 'easeOutCubic'
+            });
+          }
+          scrollObserver.unobserve(el);
+        }
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+  // Observe all scroll-reveal elements
+  document.querySelectorAll(scrollRevealTargets).forEach(el => {
+    scrollObserver.observe(el);
+  });
+  // Also observe standalone tables, notes, tips, step-lists
+  document.querySelectorAll('table, .note, .tip, .step-list').forEach(el => {
+    scrollObserver.observe(el);
+  });
+
+  // ===== 10. HOVER ANIMATIONS =====
+  document.querySelectorAll('.section').forEach(section => {
+    section.addEventListener('mouseenter', function() {
+      animate(this, {
+        translateY: -2,
+        boxShadow: '0 4px 16px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.04)',
+        duration: 300,
+        ease: 'easeOutCubic'
+      });
+    });
+    section.addEventListener('mouseleave', function() {
+      animate(this, {
+        translateY: 0,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.02)',
+        duration: 300,
+        ease: 'easeOutCubic'
+      });
+    });
+  });
+
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mouseenter', function() {
+      animate(this, {
+        scale: 1.03,
+        boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
+        duration: 300,
+        ease: 'easeOutCubic'
+      });
+    });
+    card.addEventListener('mouseleave', function() {
+      animate(this, {
+        scale: 1,
+        boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+        duration: 300,
+        ease: 'easeOutCubic'
+      });
+    });
+  });
+
+  document.querySelectorAll('.flow-step').forEach(step => {
+    step.addEventListener('mouseenter', function() {
+      animate(this.querySelector('.step-num'), {
+        scale: [1, 1.3],
+        rotate: '1turn',
+        duration: 400,
+        ease: 'easeOutBack'
+      });
+    });
+    step.addEventListener('mouseleave', function() {
+      animate(this.querySelector('.step-num'), {
+        scale: [1.3, 1],
+        duration: 300,
+        ease: 'easeOutCubic'
+      });
+    });
+  });
+
+  document.querySelectorAll('.toc a').forEach(link => {
+    link.style.display = 'inline-block';
+    link.addEventListener('mouseenter', function() {
+      animate(this, {
+        translateX: 8,
+        color: '#D97757',
+        duration: 250,
+        ease: 'easeOutCubic'
+      });
+    });
+    link.addEventListener('mouseleave', function() {
+      animate(this, {
+        translateX: 0,
+        color: '#5B8A72',
+        duration: 250,
+        ease: 'easeOutCubic'
+      });
+    });
+  });
+
+  // ===== 11. SVG STEP BOX HOVER GLOW =====
+  document.querySelectorAll('.diagram-box svg rect:not([width="100%"])').forEach(rect => {
+    const originalStroke = rect.getAttribute('stroke');
+    rect.style.cursor = 'pointer';
+    rect.addEventListener('mouseenter', function() {
+      animate(this, {
+        filter: 'drop-shadow(0 0 6px ' + originalStroke + ')',
+        duration: 300,
+        ease: 'easeOutCubic'
+      });
+    });
+    rect.addEventListener('mouseleave', function() {
+      animate(this, {
+        filter: 'drop-shadow(0 0 0px transparent)',
+        duration: 300,
+        ease: 'easeOutCubic'
+      });
+    });
+  });
+
+  // ===== 12. CONTINUOUS FLOATING ANIMATION FOR HEADER DOT =====
+  animate('.pulse-dot', {
+    translateY: [-3, 3],
+    duration: 2000,
+    direction: 'alternate',
+    ease: 'easeInOutSine',
+    loop: true
+  });
+
+  // ===== 13. INLINE CODE HOVER POP =====
+  document.querySelectorAll('.inline-code').forEach(code => {
+    code.addEventListener('mouseenter', function() {
+      animate(this, {
+        scale: 1.1,
+        backgroundColor: '#D97757',
+        color: '#ffffff',
+        duration: 200,
+        ease: 'easeOutCubic'
+      });
+    });
+    code.addEventListener('mouseleave', function() {
+      animate(this, {
+        scale: 1,
+        backgroundColor: '#F5F3F0',
+        color: '#D97757',
+        duration: 200,
+        ease: 'easeOutCubic'
+      });
+    });
+  });
+
+  // ===== 14. IMAGE REVEAL — handled by scroll observer =====
+
+  </script>
 </body>
 </html>
