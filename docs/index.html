@@ -126,6 +126,7 @@
     .section-dot.rose { background: #C96464; }
     .section-dot.amber { background: #D4A843; }
     .section-dot.teal { background: #2D9CDB; }
+    .section-dot.violet { background: #7C5CBF; }
 
     .section-title h3 {
       margin: 0;
@@ -231,6 +232,12 @@
       border: 1px solid #2D9CDB;
     }
 
+    .badge-diagram {
+      background: #F5F0FA;
+      color: #7C5CBF;
+      border: 1px solid #7C5CBF;
+    }
+
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -266,6 +273,7 @@
     .card-dot.blue { background: #4A6FA5; }
     .card-dot.amber { background: #D4A843; }
     .card-dot.teal { background: #2D9CDB; }
+    .card-dot.violet { background: #7C5CBF; }
 
     .card h4 {
       font-size: 0.8125rem;
@@ -467,8 +475,9 @@
         <li><a href="#step-ship">7. Step 4: /ship-it — 提交交付</a></li>
         <li><a href="#step-humanize">8. Bonus: /humanize-it — 去 AI 味改写</a></li>
         <li><a href="#step-tts">9. Bonus: /listenhub-tts — 文本转语音</a></li>
-        <li><a href="#platforms">10. 支持的平台</a></li>
-        <li><a href="#faq">11. FAQ</a></li>
+        <li><a href="#step-diagram">10. Bonus: /insight-diagram — UML 与架构图</a></li>
+        <li><a href="#platforms">11. 支持的平台</a></li>
+        <li><a href="#faq">12. FAQ</a></li>
       </ul>
     </div>
 
@@ -557,6 +566,18 @@
             <li>支持 AI 润色长文本</li>
           </ul>
         </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-dot violet"></div>
+            <h4>/insight-diagram</h4>
+          </div>
+          <p>UML 与架构图生成器</p>
+          <ul>
+            <li>分析代码库结构</li>
+            <li>UML / 架构图 / 流程图</li>
+            <li>渲染为 HTML+SVG</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -576,6 +597,7 @@
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">ship-it</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">humanize-it</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">listenhub-tts</span>
+<span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">insight-diagram</span>
 
 <span class="comment"># 全局安装（所有项目可用）</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">-g</span>
@@ -592,7 +614,7 @@
       </table>
 
       <div class="tip">
-        <strong>Tip：</strong>安装后在 Claude Code 中输入 <code class="inline-code">/prd</code>、<code class="inline-code">/review-it</code>、<code class="inline-code">/ship-it</code>、<code class="inline-code">/humanize-it</code>、<code class="inline-code">/listenhub-tts</code> 即可直接调用对应技能。
+        <strong>Tip：</strong>安装后在 Claude Code 中输入 <code class="inline-code">/prd</code>、<code class="inline-code">/review-it</code>、<code class="inline-code">/ship-it</code>、<code class="inline-code">/humanize-it</code>、<code class="inline-code">/listenhub-tts</code>、<code class="inline-code">/insight-diagram</code> 即可直接调用对应技能。
       </div>
     </div>
 
@@ -637,6 +659,11 @@
         <div class="flow-step">
           <span class="step-num n6">+</span>
           /listenhub-tts
+        </div>
+        <span class="flow-connector">&rarr;</span>
+        <div class="flow-step">
+          <span class="step-num n6">+</span>
+          /insight-diagram
         </div>
       </div>
 
@@ -748,6 +775,12 @@
           <td><code class="inline-code">/listenhub-tts</code></td>
           <td>文本内容</td>
           <td>语音音频文件</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-diagram">附加</span></td>
+          <td><code class="inline-code">/insight-diagram</code></td>
+          <td>项目代码库</td>
+          <td>UML/架构图 (HTML+SVG)</td>
         </tr>
       </table>
     </div>
@@ -1019,20 +1052,61 @@
       </div>
     </div>
 
-    <!-- Section 10: Platforms -->
+    <!-- Section 10: /insight-diagram -->
+    <div class="section" id="step-diagram">
+      <div class="section-title">
+        <div class="section-dot violet"></div>
+        <h3>10. Bonus: /insight-diagram — UML 与架构图生成</h3>
+      </div>
+      <p>
+        <code class="inline-code">/insight-diagram</code> 为任意项目生成 UML 图、架构图和流程图。分析代码库后让用户选择要生成的图表类型，渲染为 HTML+SVG 并保存到 <code class="inline-code">docs/</code> 目录。
+      </p>
+
+      <h3>触发方式</h3>
+      <pre><code><span class="comment"># 在 Claude Code 中直接输入</span>
+<span class="cmd">/insight-diagram</span>
+
+<span class="comment"># 或使用触发词</span>
+<span class="cmd">生成架构图：</span><span class="value">分析项目结构并生成架构图</span>
+<span class="cmd">画流程图：</span><span class="value">为这个模块绘制调用流程图</span>
+<span class="cmd">生成UML图：</span><span class="value">生成类图和时序图</span></code></pre>
+
+      <h3>支持的图表类型</h3>
+      <table>
+        <tr><th>类型</th><th>说明</th><th>适用场景</th></tr>
+        <tr><td>UML 类图</td><td>展示类结构、继承关系、接口实现</td><td>面向对象设计文档</td></tr>
+        <tr><td>时序图</td><td>展示对象间的交互时序</td><td>API 调用流程、模块交互</td></tr>
+        <tr><td>架构图</td><td>展示系统整体架构和模块关系</td><td>系统设计文档、技术方案</td></tr>
+        <tr><td>流程图</td><td>展示业务逻辑和数据流转</td><td>业务流程、算法逻辑</td></tr>
+      </table>
+
+      <h3>工作流程</h3>
+      <ul class="step-list">
+        <li>分析项目代码库，识别关键组件和依赖关系</li>
+        <li>展示可选的图表类型列表，用户选择需要生成的类型</li>
+        <li>使用 <code class="inline-code">architecture-diagram</code> skill 渲染为 HTML+SVG</li>
+        <li>保存输出到 <code class="inline-code">docs/</code> 目录</li>
+      </ul>
+
+      <div class="tip">
+        <strong>Tip：</strong>你可以在触发时指定关注范围，如"只看 <code class="inline-code">src/services/</code> 目录"、"重点分析数据库层"，生成结果会更聚焦。
+      </div>
+    </div>
+
+    <!-- Section 11: Platforms -->
     <div class="section" id="platforms">
       <div class="section-title">
         <div class="section-dot slate"></div>
-        <h3>10. 支持的平台</h3>
+        <h3>11. 支持的平台</h3>
       </div>
       <p>Goal Workflow 的技能可在多个 AI Coding Agent 中使用：</p>
 
       <table>
-        <tr><th>Agent</th><th>/prd</th><th>/goal</th><th>/review-it</th><th>/ship-it</th><th>/humanize-it</th><th>/listenhub-tts</th></tr>
-        <tr><td>Claude Code</td><td>&#10003;</td><td>&#10003; (内置)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>Codex</td><td>&#10003;</td><td>&#10003; (--goal)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>OpenCode</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>DeepSeek TUI</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><th>Agent</th><th>/prd</th><th>/goal</th><th>/review-it</th><th>/ship-it</th><th>/humanize-it</th><th>/listenhub-tts</th><th>/insight-diagram</th></tr>
+        <tr><td>Claude Code</td><td>&#10003;</td><td>&#10003; (内置)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>Codex</td><td>&#10003;</td><td>&#10003; (--goal)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>OpenCode</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>DeepSeek TUI</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
       </table>
 
       <h3>Issue 创建平台</h3>
@@ -1044,11 +1118,11 @@
       </table>
     </div>
 
-    <!-- Section 10: FAQ -->
+    <!-- Section 12: FAQ -->
     <div class="section" id="faq">
       <div class="section-title">
         <div class="section-dot terracotta"></div>
-        <h3>11. FAQ</h3>
+        <h3>12. FAQ</h3>
       </div>
 
       <h3>Q: 必须按顺序使用四个步骤吗？</h3>
@@ -1070,7 +1144,12 @@
       <p>通过 <code class="inline-code">npx skills add</code> 安装时选择 <code class="inline-code">-a codex</code>。在 Codex 中使用 <code class="inline-code">codex --goal "..."</code> 替代 <code class="inline-code">/goal</code>，<code class="inline-code">/review-it</code> 在各 Agent 中通用。</p>
 
       <h3>Q: /humanize-it 的 42 次迭代上限是怎么来的？</h3>
-      <p>42 是一个趣味性的上限值。实际使用中，大多数文档在 3-5 轮迭代后就能达标。迭代的核心是智能切换策略——当一种改写方式效果停滞时，自动换用另一种，三种策略组合使用可以互补覆盖不同类型的 AI 痕迹。</p>
+      <p>数字 42 并非迭代次数有特殊要求，而是向经典科幻小说《银河系漫游指南》（<em>The Hitchhiker's Guide to the Galaxy</em>）致敬的极客文化。在该书中，超级计算机经过 750 万年计算，得出了"生命、宇宙及一切的终极答案"就是 42。在编程界，这个数字非常流行，原因有二：</p>
+      <ul class="step-list">
+        <li><strong>致敬科幻：</strong>作为程序员群体中广为人知的彩蛋，代表了终极的解答。</li>
+        <li><strong>ASCII 巧合：</strong>在 ASCII 编码中，42 对应的是星号 <code class="inline-code">*</code>。在计算机科学中，<code class="inline-code">*</code> 经常被用作通配符，表示"任何事物"或"一切皆有可能"。因此，"终极答案是 42（*）"刚好契合了"任何你想要的答案"这一哲学梗。</li>
+      </ul>
+      <p>实际使用中，大多数文档在 3-5 轮迭代后就能达标。迭代的核心是智能切换策略——当一种改写方式效果停滞时，自动换用另一种，三种策略组合使用可以互补覆盖不同类型的 AI 痕迹。</p>
 
       <h3>Q: /humanize-it 支持英文文档吗？</h3>
       <p>目前 <code class="inline-code">/humanize-it</code> 的三个子 skill 主要针对中文文本优化。<code class="inline-code">humanizer-zh</code> 的模式检测规则对英文也部分适用，但改写效果以中文为最佳。</p>
@@ -1080,6 +1159,9 @@
 
       <h3>Q: /listenhub-tts 支持哪些语言？</h3>
       <p>ListenHub 支持中文（zh）和英文（en）等多种语言的音色。调用音色列表 API 时可通过 <code class="inline-code">?language=zh</code> 参数筛选。</p>
+
+      <h3>Q: /insight-diagram 支持哪些项目类型？</h3>
+      <p><code class="inline-code">/insight-diagram</code> 适用于任何软件项目。它会自动分析代码库结构，识别关键组件、模块依赖和调用关系。支持生成 UML 类图、时序图、架构图和流程图，输出为 HTML+SVG 格式，保存到 <code class="inline-code">docs/</code> 目录。</p>
     </div>
 
     <!-- Footer -->
@@ -1103,7 +1185,7 @@
   const ctx = canvas.getContext('2d');
   let particles = [];
   const PARTICLE_COUNT = 60;
-  const colors = ['#D97757', '#5B8A72', '#8B6F8A', '#4A6FA5', '#C96464', '#2D9CDB'];
+  const colors = ['#D97757', '#5B8A72', '#8B6F8A', '#4A6FA5', '#C96464', '#2D9CDB', '#7C5CBF'];
 
   function resizeCanvas() {
     canvas.width = window.innerWidth;

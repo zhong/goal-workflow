@@ -2,7 +2,7 @@
 
 [English](./README.md) | 简体中文
 
-一套 AI 驱动的研发工作流，包含 `/prd`、`/goal`、`/review-it`、`/ship-it`、`/humanize-it` 和 `/listenhub-tts` —— 从需求到代码交付，全程在 Claude Code 中完成。
+一套 AI 驱动的研发工作流，包含 `/prd`、`/goal`、`/review-it`、`/ship-it`、`/humanize-it`、`/listenhub-tts` 和 `/insight-diagram` —— 从需求到代码交付，全程在 Claude Code 中完成。
 
 ## 开发流程
 
@@ -77,7 +77,7 @@
 - 自动检测文档类型（技术文档 / 学术论文 / 通用文本 / 长文本），选择最优 skill
 - 在 `humanizer-zh` → `humanize-chinese` → `technical-writing` 之间迭代，直到质量达标
 - 每次迭代从 AI 痕迹去除、自然度、信息完整、风格一致、可读性五个维度评分
-- 最多 42 轮迭代，智能切换策略（进度停滞时自动换 skill）
+- 最多 42 轮迭代，智能切换策略（进度停滞时自动换 skill）—— 42 是对《银河系漫游指南》的致敬
 
 **触发词：** `humanize this`、`去AI味`、`降AIGC`、`人性化改写`、`改成人话`、`去除AI痕迹`、`humanize document`
 
@@ -96,6 +96,18 @@
 
 > 基于 [ListenHub OpenAPI](https://listenhub.ai/docs/zh/openapi/api-reference/flowspeech)
 
+### /insight-diagram — UML 与架构图生成器
+
+为任意项目生成 UML 图、架构图和流程图。分析代码库后让用户选择要生成的图表类型，渲染为 HTML+SVG，保存到 `docs/` 目录。
+
+- 分析项目代码库结构，识别关键组件
+- 支持多种图表类型：UML 类图、时序图、架构图、流程图
+- 交互式选择所需的图表类型
+- 使用 `architecture-diagram` skill 渲染为 HTML+SVG
+- 输出保存到 `docs/` 目录，用于项目文档可视化
+
+**触发词：** `generate diagram`、`create architecture diagram`、`draw UML`、`生成架构图`、`画流程图`、`生成UML图`、`insight-diagram`
+
 ## 安装
 
 通过 [`npx skills`](https://www.npmjs.com/package/skills) 安装：
@@ -110,6 +122,7 @@ npx skills add smallnest/goal-workflow --skill review-it
 npx skills add smallnest/goal-workflow --skill ship-it
 npx skills add smallnest/goal-workflow --skill humanize-it
 npx skills add smallnest/goal-workflow --skill listenhub-tts
+npx skills add smallnest/goal-workflow --skill insight-diagram
 
 # 全局安装（所有项目可用）
 npx skills add smallnest/goal-workflow -g

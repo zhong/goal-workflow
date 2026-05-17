@@ -2,7 +2,7 @@
 
 English | [简体中文](./README_CN.md)
 
-An AI development workflow with `/prd`, `/goal`, `/review-it`, `/ship-it`, `/humanize-it` and `/listenhub-tts` — from requirements to shipping code, all within Claude Code.
+An AI development workflow with `/prd`, `/goal`, `/review-it`, `/ship-it`, `/humanize-it`, `/listenhub-tts` and `/insight-diagram` — from requirements to shipping code, all within Claude Code.
 
 ## Development Workflow
 
@@ -77,7 +77,7 @@ Remove AI-generated traces from documents by automatically selecting and iterati
 - Auto-detects document type (technical / academic / general / long-form) and selects the optimal skill
 - Iterates across `humanizer-zh` → `humanize-chinese` → `technical-writing` until quality threshold is met
 - Scores each iteration on 5 dimensions: AI trace removal, naturalness, information retention, style consistency, readability
-- Up to 42 iterations with smart skill-switching (auto-switches when progress stalls)
+- Up to 42 iterations with smart skill-switching (auto-switches when progress stalls) — 42 is a tribute to *The Hitchhiker's Guide to the Galaxy*
 
 **Triggers:** `humanize this`, `去AI味`, `降AIGC`, `人性化改写`, `改成人话`, `去除AI痕迹`, `humanize document`
 
@@ -96,6 +96,18 @@ Convert text to speech using the ListenHub API. Supports three synthesis modes: 
 
 > Powered by [ListenHub OpenAPI](https://listenhub.ai/docs/zh/openapi/api-reference/flowspeech)
 
+### /insight-diagram — UML & Architecture Diagram Generator
+
+Generate UML diagrams, architecture diagrams, and flowcharts for any project. Analyzes the codebase, lets you choose diagram types, renders as HTML+SVG, and saves to the `docs/` directory.
+
+- Analyzes project codebase structure and identifies key components
+- Supports multiple diagram types: UML class diagrams, sequence diagrams, architecture diagrams, flowcharts
+- User selects desired diagram type from interactive options
+- Renders diagrams using the `architecture-diagram` skill as HTML+SVG
+- Saves output to `docs/` directory for project documentation visualization
+
+**Triggers:** `generate diagram`, `create architecture diagram`, `draw UML`, `生成架构图`, `画流程图`, `生成UML图`, `insight-diagram`
+
 ## Installation
 
 Install skills via [`npx skills`](https://www.npmjs.com/package/skills):
@@ -110,6 +122,7 @@ npx skills add smallnest/goal-workflow --skill review-it
 npx skills add smallnest/goal-workflow --skill ship-it
 npx skills add smallnest/goal-workflow --skill humanize-it
 npx skills add smallnest/goal-workflow --skill listenhub-tts
+npx skills add smallnest/goal-workflow --skill insight-diagram
 
 # Install globally (available across all projects)
 npx skills add smallnest/goal-workflow -g
