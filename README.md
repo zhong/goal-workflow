@@ -2,7 +2,7 @@
 
 English | [简体中文](./README_CN.md)
 
-An AI development workflow with `/prd`, `/goal`, `/review-it`, `/ship-it`, `/humanize-it`, `/listenhub-tts` and `/insight-diagram` — from requirements to shipping code, all within Claude Code.
+An AI development workflow with `/prd`, `/goal`, `/review-it`, `/ship-it`, `/refactor`, `/humanize-it`, `/listenhub-tts` and `/insight-diagram` — from requirements to shipping code, all within Claude Code.
 
 ## Development Workflow
 
@@ -96,6 +96,21 @@ Convert text to speech using the ListenHub API. Supports three synthesis modes: 
 
 > Powered by [ListenHub OpenAPI](https://listenhub.ai/docs/zh/openapi/api-reference/flowspeech)
 
+### /refactor — Expert Code Refactoring
+
+Surgical code refactoring based on Martin Fowler's <Refactoring> catalog — improve maintainability without changing external behavior.
+
+- Catalog of 22 code smells organized by category (Bloaters, OO Abusers, Change Preventers, Dispensables, Couplers)
+- 40+ refactoring techniques from Fowler's catalog in 6 categories (Composing Methods, Moving Features, Organizing Data, Simplifying Conditionals, Method Calls, Generalization)
+- Each technique includes mechanical steps with before/after examples
+- Strict 5-phase safety protocol: Prepare → Identify → Refactor → Verify → Clean Up (tests + commit after every step)
+- Design patterns for refactoring: Strategy, Template Method, State, Composite, Decorator, Null Object
+- Language-specific guidance for Java, TypeScript, Python, Go, and Rust
+
+**Triggers:** `refactor`, `重构`, `clean up`, `improve code`, `code smell`, `extract method`, `rename`, `simplify`
+
+> Based on Martin Fowler, *Refactoring: Improving the Design of Existing Code* (2nd Edition)
+
 ### /insight-diagram — UML & Architecture Diagram Generator
 
 Generate UML diagrams, architecture diagrams, and flowcharts for any project. Analyzes the codebase, lets you choose diagram types, renders as HTML+SVG, and saves to the `docs/` directory.
@@ -123,6 +138,7 @@ npx skills add smallnest/goal-workflow --skill ship-it
 npx skills add smallnest/goal-workflow --skill humanize-it
 npx skills add smallnest/goal-workflow --skill listenhub-tts
 npx skills add smallnest/goal-workflow --skill insight-diagram
+npx skills add smallnest/goal-workflow --skill refactor
 
 # Install globally (available across all projects)
 npx skills add smallnest/goal-workflow -g

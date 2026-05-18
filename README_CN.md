@@ -2,7 +2,7 @@
 
 [English](./README.md) | 简体中文
 
-一套 AI 驱动的研发工作流，包含 `/prd`、`/goal`、`/review-it`、`/ship-it`、`/humanize-it`、`/listenhub-tts` 和 `/insight-diagram` —— 从需求到代码交付，全程在 Claude Code 中完成。
+一套 AI 驱动的研发工作流，包含 `/prd`、`/goal`、`/review-it`、`/ship-it`、`/refactor`、`/humanize-it`、`/listenhub-tts` 和 `/insight-diagram` —— 从需求到代码交付，全程在 Claude Code 中完成。
 
 ## 开发流程
 
@@ -96,6 +96,21 @@
 
 > 基于 [ListenHub OpenAPI](https://listenhub.ai/docs/zh/openapi/api-reference/flowspeech)
 
+### /refactor — 专家级代码重构
+
+基于 Martin Fowler《重构》一书的精准代码重构——改善可维护性，不改变外部行为。
+
+- 22 种代码坏味道按类别组织（臃肿类、OO 滥用类、变更阻碍类、冗余类、耦合类）
+- 40+ 种重构手法，分 6 大类（组合方法、移动特性、组织数据、简化条件、方法调用、泛化）
+- 每种手法附带机械步骤和重构前后对比示例
+- 严格的五阶段安全协议：准备 → 识别 → 重构 → 验证 → 清理（每一步提交 + 测试）
+- 重构中的设计模式：Strategy、Template Method、State、Composite、Decorator、Null Object
+- 针对 Java、TypeScript、Python、Go 和 Rust 的语言专属指南
+
+**触发词：** `refactor`、`重构`、`clean up`、`improve code`、`code smell`、`extract method`、`rename`、`simplify`
+
+> 基于 Martin Fowler《重构：改善既有代码的设计》（第 2 版）
+
 ### /insight-diagram — UML 与架构图生成器
 
 为任意项目生成 UML 图、架构图和流程图。分析代码库后让用户选择要生成的图表类型，渲染为 HTML+SVG，保存到 `docs/` 目录。
@@ -123,6 +138,7 @@ npx skills add smallnest/goal-workflow --skill ship-it
 npx skills add smallnest/goal-workflow --skill humanize-it
 npx skills add smallnest/goal-workflow --skill listenhub-tts
 npx skills add smallnest/goal-workflow --skill insight-diagram
+npx skills add smallnest/goal-workflow --skill refactor
 
 # 全局安装（所有项目可用）
 npx skills add smallnest/goal-workflow -g
