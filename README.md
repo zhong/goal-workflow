@@ -2,7 +2,7 @@
 
 English | [简体中文](./README_CN.md)
 
-An AI development workflow with `/prd`, `/goal`, `/review-it`, `/ship-it`, `/refactor`, `/humanize-it`, `/listenhub-tts` and `/insight-diagram` — from requirements to shipping code, all within Claude Code.
+An AI development workflow with `/prd`, `/goal`, `/review-it`, `/ship-it`, `/refactor`, `/modern-go`, `/humanize-it`, `/listenhub-tts` and `/insight-diagram` — from requirements to shipping code, all within Claude Code.
 
 ## Development Workflow
 
@@ -111,6 +111,19 @@ Surgical code refactoring based on Martin Fowler's <Refactoring> catalog — imp
 
 > Based on Martin Fowler, *Refactoring: Improving the Design of Existing Code* (2nd Edition)
 
+### /modern-go — Go Code Modernizer
+
+Apply version-appropriate Go idioms and APIs to modernize Go codebases. Works like `go fix` across 35+ transformation rules from Go 1.0 through 1.26+.
+
+- Auto-detects Go version from `go.mod` and applies all applicable transformations
+- Targets a specific file, directory, or the entire project (all `.go` files)
+- 35 transformation rules: `time.Since`, `errors.Is`, `any`, `strings.Cut`, `min`/`max`, `clear`, `slices`/`maps` packages, `t.Context()`, `b.Loop()`, `new(expr)`, and more
+- Each rule presented with concise table + code example (before/after)
+- Safety rules prevent semantic changes — e.g., `omitzero` is suggested, not auto-applied
+- Outputs a summary table of files modified, transformations applied, and skipped rules
+
+**Triggers:** `modernize`, `modern-go`, `update Go code`, `gofix`, `升级Go代码`
+
 ### /insight-diagram — UML & Architecture Diagram Generator
 
 Generate UML diagrams, architecture diagrams, and flowcharts for any project. Analyzes the codebase, lets you choose diagram types, renders as HTML+SVG, and saves to the `docs/` directory.
@@ -139,6 +152,7 @@ npx skills add smallnest/goal-workflow --skill humanize-it
 npx skills add smallnest/goal-workflow --skill listenhub-tts
 npx skills add smallnest/goal-workflow --skill insight-diagram
 npx skills add smallnest/goal-workflow --skill refactor
+npx skills add smallnest/goal-workflow --skill modern-go
 
 # Install globally (available across all projects)
 npx skills add smallnest/goal-workflow -g

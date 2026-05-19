@@ -2,7 +2,7 @@
 
 [English](./README.md) | 简体中文
 
-一套 AI 驱动的研发工作流，包含 `/prd`、`/goal`、`/review-it`、`/ship-it`、`/refactor`、`/humanize-it`、`/listenhub-tts` 和 `/insight-diagram` —— 从需求到代码交付，全程在 Claude Code 中完成。
+一套 AI 驱动的研发工作流，包含 `/prd`、`/goal`、`/review-it`、`/ship-it`、`/refactor`、`/modern-go`、`/humanize-it`、`/listenhub-tts` 和 `/insight-diagram` —— 从需求到代码交付，全程在 Claude Code 中完成。
 
 ## 开发流程
 
@@ -111,6 +111,19 @@
 
 > 基于 Martin Fowler《重构：改善既有代码的设计》（第 2 版）
 
+### /modern-go — Go 代码现代化改造
+
+基于 Go 版本的自动代码现代化工具。扫描 `go.mod` 检测 Go 版本，对 Go 源文件应用版本适配的现代写法和 API，覆盖 35+ 条转换规则。
+
+- 自动检测 Go 版本，应用所有适配的转换规则（Go 1.0 到 1.26+）
+- 支持指定文件、目录或整个项目（所有 `.go` 文件）
+- 35 条转换规则：`time.Since`、`errors.Is`、`any`、`strings.Cut`、`min`/`max`、`clear`、`slices`/`maps` 包、`t.Context()`、`b.Loop()`、`new(expr)` 等
+- 每条规则附带简洁对照表和代码示例（before/after）
+- 安全规则防止语义变更——例如 `omitzero` 仅建议不自动应用
+- 输出改造报告：修改文件数、应用转换数、已跳过的规则及原因
+
+**触发词：** `modernize`、`modern-go`、`gofix`、`升级Go代码`、`Go代码现代化`
+
 ### /insight-diagram — UML 与架构图生成器
 
 为任意项目生成 UML 图、架构图和流程图。分析代码库后让用户选择要生成的图表类型，渲染为 HTML+SVG，保存到 `docs/` 目录。
@@ -139,6 +152,7 @@ npx skills add smallnest/goal-workflow --skill humanize-it
 npx skills add smallnest/goal-workflow --skill listenhub-tts
 npx skills add smallnest/goal-workflow --skill insight-diagram
 npx skills add smallnest/goal-workflow --skill refactor
+npx skills add smallnest/goal-workflow --skill modern-go
 
 # 全局安装（所有项目可用）
 npx skills add smallnest/goal-workflow -g
