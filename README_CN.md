@@ -2,9 +2,7 @@
 
 [English](./README.md) | 简体中文
 
-一套 AI 驱动的研发工作流，包含 `/prd`、`/goal`、`/review-it`、`/ship-it`、`/refactor`、`/modern-go`、`/humanize-it`、`/listenhub-tts` 和 `/insight-diagram` —— 从需求到代码交付，全程在 Claude Code 中完成。
-
-## 开发流程
+一套 AI 驱动的研发工作流，从需求到代码交付，全程在 Claude Code 中完成。
 
 ```
 /prd  →  /goal  →  /review-it  →  /ship-it
@@ -14,156 +12,30 @@
   <img src="docs/workflow.png" alt="Goal Workflow 信息图" width="800">
 </p>
 
-| 步骤 | 命令 | 说明 |
-|------|------|------|
-| 1. 规划 | `/prd` | 编写需求文档，拆解功能，生成 Issue 卡片 |
-| 2. 实现 | `/goal` | 选择一个 Issue 卡片进行开发（Claude Code 或 Codex） |
-| 3. 审查 | `/review-it` | 代码审查，验证发现，迭代修复 |
-| 4. 交付 | `/ship-it` | 提交代码，创建 PR，合入，添加实现总结，关闭 Issue |
-
-**第一步 — 规划：** 描述你的功能想法，`/prd` 会询问澄清问题，生成结构化 PRD，然后拆解为小粒度、独立可实施的 Issue 卡片（支持 GitHub / 本地文件 / 百度 iCafe）。
-
-**第二步 — 实现：** 使用 `/goal`（Claude Code）或 `codex --goal`（Codex）选择一个 Issue 卡片，在单次会话中完成端到端实现。
-
-**第三步 — 审查：** 运行 `/review-it` 进行自动化代码审查。对每个发现进行真实代码验证，持续迭代直到审查通过。支持 Claude Code、Codex、OpenCode 和 DeepSeek TUI。
-
-**第四步 — 交付：** 运行 `/ship-it` 提交代码（关联 Issue 编号）、推送分支、创建 PR、squash 合入、添加实现总结，并关闭 Issue。
-
-**附加 — 去AI味：** 运行 `/humanize-it` 对文档进行去 AI 味改写。根据文档类型自动选择最佳人性化策略（`humanizer-zh` / `humanize-chinese` / `technical-writing`），迭代改写直到效果达标（最多 42 轮迭代）。
-
-## Skills
-
-### /prd — PRD 生成器 + Issue 拆解器
-
-为新功能生成结构化的产品需求文档（PRD），然后拆解为可实施的 Issue。
-
-- 通过 3-5 个带选项的澄清问题快速对齐需求
-- 生成包含用户故事、功能需求、非目标等完整章节的 PRD
-- 将 PRD 拆解为小粒度、独立可实施的 Issue
-- 支持创建 Issue 到 GitHub / 本地 `.md` 文件 / 百度 iCafe
-
-**触发词：** `create a prd`、`write prd for`、`plan this feature`、`写PRD`、`需求文档`、`需求分析`
-
-> 改编自 [snarktank/ralph/skills/prd](https://github.com/snarktank/ralph/tree/main/skills/prd)
-
-### /review-it — 代码审查收尾
-
-在提交或发布前的自动化代码审查收尾检查。支持 Claude Code、Codex、OpenCode 和 DeepSeek TUI。
-
-- 自动检测审查目标：未提交的变更或分支 diff
-- 支持测试与审查并行执行
-- 将审查结果视为建议——对每个发现进行真实代码验证
-- 持续迭代直到审查结果清洁
-
-**触发词：** `review-it`、`autoreview`，或在最终提交/发布前使用
-
-> 改编自 [steipete/agent-scripts/skills/codex-review](https://github.com/steipete/agent-scripts/blob/main/skills/codex-review/SKILL.md)
-
-### /ship-it — 提交、PR、合入与关闭
-
-标准的实现后收尾流程：提交代码 → 推送分支 → 创建 PR → 合入 → 关闭 Issue。
-
-- 提交代码时在 commit message 中关联 Issue 编号
-- 创建 PR 时包含 `Closes #N` 实现自动关闭
-- 通过 `gh pr merge --squash --delete-branch` 合入
-- 处理各种异常情况（checks 失败、合并冲突、分支保护）
-
-**触发词：** `提交代码`、`commit and merge`、`创建PR`、`合入`、`关闭issue`、`ship-it`
-
-### /humanize-it — 迭代式去 AI 味改写
-
-自动选择并组合多个去 AI 味策略，对文档进行迭代式人性化改写。
-
-- 自动检测文档类型（技术文档 / 学术论文 / 通用文本 / 长文本），选择最优 skill
-- 在 `humanizer-zh` → `humanize-chinese` → `technical-writing` 之间迭代，直到质量达标
-- 每次迭代从 AI 痕迹去除、自然度、信息完整、风格一致、可读性五个维度评分
-- 最多 42 轮迭代，智能切换策略（进度停滞时自动换 skill）—— 42 是对《银河系漫游指南》的致敬
-
-**触发词：** `humanize this`、`去AI味`、`降AIGC`、`人性化改写`、`改成人话`、`去除AI痕迹`、`humanize document`
-
-> 组合使用 [humanizer-zh](https://github.com/anthropics/claude-code)、[humanize-chinese](https://github.com/anthropics/claude-code) 和 [technical-writing](https://github.com/anthropics/claude-code) 三个 skill
-
-### /listenhub-tts — ListenHub 文本转语音
-
-使用 ListenHub API 将文本转换为语音。支持三种合成模式：快速合成、多角色脚本和长文本异步合成。
-
-- 根据文本长度和使用场景自动选择最佳合成模式
-- 音色未指定时展示音色列表供选择，默认使用 `chat-girl-105-cn`（晓曼）
-- 支持快速合成（`/v1/tts`）、多角色脚本（`/v1/speech`）和长文本异步合成（`/v1/flow-speech/episodes`）
-- 长文本支持 AI 润色模式，提升语音自然度
-
-**触发词：** `tts`、`语音合成`、`文字转语音`、`朗读`、`生成语音`、`生成音频`、`转音频`、`text to speech`
-
-> 基于 [ListenHub OpenAPI](https://listenhub.ai/docs/zh/openapi/api-reference/flowspeech)
-
-### /refactor — 专家级代码重构
-
-基于 Martin Fowler《重构》一书的精准代码重构——改善可维护性，不改变外部行为。
-
-- 22 种代码坏味道按类别组织（臃肿类、OO 滥用类、变更阻碍类、冗余类、耦合类）
-- 40+ 种重构手法，分 6 大类（组合方法、移动特性、组织数据、简化条件、方法调用、泛化）
-- 每种手法附带机械步骤和重构前后对比示例
-- 严格的五阶段安全协议：准备 → 识别 → 重构 → 验证 → 清理（每一步提交 + 测试）
-- 重构中的设计模式：Strategy、Template Method、State、Composite、Decorator、Null Object
-- 针对 Java、TypeScript、Python、Go 和 Rust 的语言专属指南
-
-**触发词：** `refactor`、`重构`、`clean up`、`improve code`、`code smell`、`extract method`、`rename`、`simplify`
-
-> 基于 Martin Fowler《重构：改善既有代码的设计》（第 2 版）
-
-### /modern-go — Go 代码现代化改造
-
-基于 Go 版本的自动代码现代化工具。扫描 `go.mod` 检测 Go 版本，对 Go 源文件应用版本适配的现代写法和 API，覆盖 35+ 条转换规则。
-
-- 自动检测 Go 版本，应用所有适配的转换规则（Go 1.0 到 1.26+）
-- 支持指定文件、目录或整个项目（所有 `.go` 文件）
-- 35 条转换规则：`time.Since`、`errors.Is`、`any`、`strings.Cut`、`min`/`max`、`clear`、`slices`/`maps` 包、`t.Context()`、`b.Loop()`、`new(expr)` 等
-- 每条规则附带简洁对照表和代码示例（before/after）
-- 安全规则防止语义变更——例如 `omitzero` 仅建议不自动应用
-- 输出改造报告：修改文件数、应用转换数、已跳过的规则及原因
-
-**触发词：** `modernize`、`modern-go`、`gofix`、`升级Go代码`、`Go代码现代化`
-
-### /insight-diagram — UML 与架构图生成器
-
-为任意项目生成 UML 图、架构图和流程图。分析代码库后让用户选择要生成的图表类型，渲染为 HTML+SVG，保存到 `docs/` 目录。
-
-- 分析项目代码库结构，识别关键组件
-- 支持 17 种图表类型：架构图 + 14 种 UML 图（类图、对象图、组件图、部署图、包图、复合结构图、剖面图、用例图、活动图、状态机图、序列图、通信图、定时图、交互概览图）+ 流程图 + 泳道图
-- 交互式选择所需的图表类型
-- 使用 `architecture-diagram` skill 渲染为 HTML+SVG
-- 输出保存到 `docs/` 目录，用于项目文档可视化
-
-**触发词：** `generate diagram`、`create architecture diagram`、`draw UML`、`生成架构图`、`画流程图`、`生成UML图`、`insight-diagram`
-
 ## 安装
 
-通过 [`npx skills`](https://www.npmjs.com/package/skills) 安装：
-
 ```bash
-# 安装本仓库所有 skills
 npx skills add smallnest/goal-workflow
-
-# 安装指定 skill
-npx skills add smallnest/goal-workflow --skill prd
-npx skills add smallnest/goal-workflow --skill review-it
-npx skills add smallnest/goal-workflow --skill ship-it
-npx skills add smallnest/goal-workflow --skill humanize-it
-npx skills add smallnest/goal-workflow --skill listenhub-tts
-npx skills add smallnest/goal-workflow --skill insight-diagram
-npx skills add smallnest/goal-workflow --skill refactor
-npx skills add smallnest/goal-workflow --skill modern-go
-
-# 全局安装（所有项目可用）
-npx skills add smallnest/goal-workflow -g
-
-# 安装到指定 agent
-npx skills add smallnest/goal-workflow -a claude-code
 ```
+
+## 技能列表
+
+| 命令 | 说明 |
+|------|------|
+| `/prd` | 生成 PRD 并拆解为 Issue |
+| `/goal` | 端到端实现 Issue（Claude Code 内置） |
+| `/review-it` | 自动化代码审查与迭代修复 |
+| `/ship-it` | 提交、PR、合入、关闭 Issue |
+| `/note-it` | 为 Issue 记录实现笔记 |
+| `/humanize-it` | 文档去 AI 味改写 |
+| `/listenhub-tts` | ListenHub 文本转语音 |
+| `/insight-diagram` | UML 与架构图生成 |
+| `/refactor` | 专家级代码重构（Fowler 目录） |
+| `/modern-go` | Go 代码现代化改造（35+ 条规则） |
 
 ## 文档
 
-- [工作流使用指南 (HTML)](docs/workflow.html) — 包含流程图、分步说明和常见问题
+完整使用指南：[docs/index.html](docs/index.html)
 
 ## 许可证
 
