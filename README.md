@@ -23,6 +23,7 @@ npx skills add smallnest/goal-workflow
 | Command | Description |
 |---------|-------------|
 | `/prd` | Generate PRD and decompose into Issues |
+| `/prd-to-spec` | Transform PRD into technical SPEC |
 | `/goal` | Implement an Issue end-to-end (Claude Code built-in) |
 | `/review-it` | Automated code review with iterative fixes |
 | `/ship-it` | Commit, PR, merge, and close the Issue |

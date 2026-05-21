@@ -474,18 +474,19 @@
         <li><a href="#install">2. 安装</a></li>
         <li><a href="#workflow">3. 工作流总览</a></li>
         <li><a href="#step-prd">4. Step 1: /prd — 需求规划</a></li>
-        <li><a href="#step-goal">5. Step 2: /goal — 功能实现</a></li>
-        <li><a href="#step-review">6. Step 3: /review-it — 代码审查</a></li>
-        <li><a href="#step-ship">7. Step 4: /ship-it — 提交交付</a></li>
-        <li><a href="#step-humanize">8. Bonus: /humanize-it — 去 AI 味改写</a></li>
-        <li><a href="#step-tts">9. Bonus: /listenhub-tts — 文本转语音</a></li>
-        <li><a href="#step-diagram">10. Bonus: /insight-diagram — UML 与架构图</a></li>
-        <li><a href="#step-refactor">11. Bonus: /refactor — 专家级代码重构</a></li>
-        <li><a href="#step-modern-go">12. Bonus: /modern-go — Go 代码现代化改造</a></li>
-        <li><a href="#step-note-it">13. Bonus: /note-it — 实现笔记记录</a></li>
-        <li><a href="#step-code-to-spec">14. Bonus: /code-to-spec — 逆向生成规格文档</a></li>
-        <li><a href="#platforms">15. 支持的平台</a></li>
-        <li><a href="#faq">16. FAQ</a></li>
+        <li><a href="#step-prd-to-spec">5. Step 1.5: /prd-to-spec — PRD 转技术方案</a></li>
+        <li><a href="#step-goal">6. Step 2: /goal — 功能实现</a></li>
+        <li><a href="#step-review">7. Step 3: /review-it — 代码审查</a></li>
+        <li><a href="#step-ship">8. Step 4: /ship-it — 提交交付</a></li>
+        <li><a href="#step-humanize">9. Bonus: /humanize-it — 去 AI 味改写</a></li>
+        <li><a href="#step-tts">10. Bonus: /listenhub-tts — 文本转语音</a></li>
+        <li><a href="#step-diagram">11. Bonus: /insight-diagram — UML 与架构图</a></li>
+        <li><a href="#step-refactor">12. Bonus: /refactor — 专家级代码重构</a></li>
+        <li><a href="#step-modern-go">13. Bonus: /modern-go — Go 代码现代化改造</a></li>
+        <li><a href="#step-note-it">14. Bonus: /note-it — 实现笔记记录</a></li>
+        <li><a href="#step-code-to-spec">15. Bonus: /code-to-spec — 逆向生成规格文档</a></li>
+        <li><a href="#platforms">16. 支持的平台</a></li>
+        <li><a href="#faq">17. FAQ</a></li>
       </ul>
     </div>
 
@@ -512,6 +513,18 @@
             <li>澄清问题 → 结构化 PRD</li>
             <li>拆解为独立可实施的 Issue</li>
             <li>支持 GitHub / Local / iCafe</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-dot terracotta"></div>
+            <h4>/prd-to-spec</h4>
+          </div>
+          <p>PRD 转技术设计方案</p>
+          <ul>
+            <li>PRD 需求 → 架构 + API + 数据模型</li>
+            <li>错误处理 + 安全 + 性能策略</li>
+            <li>Issue 映射 + 实施计划</li>
           </ul>
         </div>
         <div class="card">
@@ -649,6 +662,7 @@
 
 <span class="comment"># 或安装指定 skill</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">prd</span>
+<span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">prd-to-spec</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">review-it</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">ship-it</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">humanize-it</span>
@@ -674,7 +688,7 @@
       </table>
 
       <div class="tip">
-        <strong>Tip：</strong>安装后在 Claude Code 中输入 <code class="inline-code">/prd</code>、<code class="inline-code">/review-it</code>、<code class="inline-code">/ship-it</code>、<code class="inline-code">/refactor</code>、<code class="inline-code">/modern-go</code>、<code class="inline-code">/note-it</code>、<code class="inline-code">/code-to-spec</code>、<code class="inline-code">/humanize-it</code>、<code class="inline-code">/listenhub-tts</code>、<code class="inline-code">/insight-diagram</code> 即可直接调用对应技能。
+        <strong>Tip：</strong>安装后在 Claude Code 中输入 <code class="inline-code">/prd</code>、<code class="inline-code">/prd-to-spec</code>、<code class="inline-code">/review-it</code>、<code class="inline-code">/ship-it</code>、<code class="inline-code">/refactor</code>、<code class="inline-code">/modern-go</code>、<code class="inline-code">/note-it</code>、<code class="inline-code">/code-to-spec</code>、<code class="inline-code">/humanize-it</code>、<code class="inline-code">/listenhub-tts</code>、<code class="inline-code">/insight-diagram</code> 即可直接调用对应技能。
       </div>
     </div>
 
@@ -842,11 +856,70 @@
       </div>
     </div>
 
-    <!-- Section 5: /goal -->
+    <!-- Section 5: /prd-to-spec -->
+    <div class="section" id="step-prd-to-spec">
+      <div class="section-title">
+        <div class="section-dot terracotta"></div>
+        <h3>5. Step 1.5: /prd-to-spec — PRD 转技术方案</h3>
+      </div>
+      <p>
+        <code class="inline-code">/prd-to-spec</code> 将产品需求文档（PRD）转化为可实施的技术设计方案（SPEC）。PRD 说明"做什么"，SPEC 说明"怎么做"。
+      </p>
+
+      <h3>触发方式</h3>
+      <pre><code><span class="comment"># 在 Claude Code 中直接输入</span>
+<span class="cmd">/prd-to-spec</span> <span class="value">tasks/prd-priority-system.md</span>
+
+<span class="comment"># 或使用触发词</span>
+<span class="cmd">需求转设计：</span><span class="value">将优先级 PRD 转为技术方案</span>
+<span class="cmd">技术方案：</span><span class="value">基于 prd-user-auth.md 生成 SPEC</span></code></pre>
+
+      <h3>PRD → SPEC 映射</h3>
+      <table>
+        <tr><th>PRD 元素</th><th>SPEC 章节</th><th>转化方式</th></tr>
+        <tr><td>User Stories</td><td>业务逻辑 + 测试映射</td><td>故事 → 算法 + 测试用例</td></tr>
+        <tr><td>Functional Requirements</td><td>API 设计 + 业务逻辑</td><td>FR → 端点 + 实现逻辑</td></tr>
+        <tr><td>Acceptance Criteria</td><td>测试策略</td><td>标准 → 具体测试场景</td></tr>
+        <tr><td>Non-Goals</td><td>开放问题</td><td>明确排除范围</td></tr>
+        <tr><td>Technical Considerations</td><td>架构 + 性能</td><td>约束 → 设计决策</td></tr>
+      </table>
+
+      <h3>SPEC 输出结构（11 章节）</h3>
+      <table>
+        <tr><th>#</th><th>章节</th><th>内容</th></tr>
+        <tr><td>1</td><td>Summary</td><td>覆盖范围、PRD 引用、设计决策摘要</td></tr>
+        <tr><td>2</td><td>Architecture</td><td>系统上下文、组件设计、文件结构</td></tr>
+        <tr><td>3</td><td>Data Model</td><td>Schema 变更、实体定义、迁移计划</td></tr>
+        <tr><td>4</td><td>API Design</td><td>端点表、请求响应 Schema、错误响应</td></tr>
+        <tr><td>5</td><td>Business Logic</td><td>核心算法、校验规则、状态机、边界情况</td></tr>
+        <tr><td>6</td><td>Error Handling</td><td>错误分类、重试策略、降级方案</td></tr>
+        <tr><td>7</td><td>Security</td><td>认证授权、输入校验、数据保护</td></tr>
+        <tr><td>8</td><td>Performance</td><td>预期负载、优化策略、数据库考量</td></tr>
+        <tr><td>9</td><td>Testing Strategy</td><td>单元/集成/E2E 测试 + 验收标准映射</td></tr>
+        <tr><td>10</td><td>Implementation Plan</td><td>实施阶段、Issue 映射、渐进交付</td></tr>
+        <tr><td>11</td><td>Open Questions & Risks</td><td>未决问题、技术风险、假设前提</td></tr>
+      </table>
+
+      <h3>工作流程</h3>
+      <ul class="step-list">
+        <li>定位 PRD 文件（自动扫描 tasks/ 或手动指定）</li>
+        <li>分析现有代码库：架构、技术栈、模式、约定</li>
+        <li>提出 3-5 个技术澄清问题（带选项）</li>
+        <li>生成完整 SPEC 文档</li>
+        <li>展示供审阅，确认或迭代</li>
+        <li>保存到 <code class="inline-code">tasks/spec-[feature-name].md</code></li>
+      </ul>
+
+      <div class="note">
+        <strong>Note：</strong><code class="inline-code">/prd-to-spec</code> 位于 <code class="inline-code">/prd</code> 和 <code class="inline-code">/goal</code> 之间，是从需求到实现的桥梁。在复杂功能中，先生成 SPEC 再实现能显著减少返工。
+      </div>
+    </div>
+
+    <!-- Section 6: /goal -->
     <div class="section" id="step-goal">
       <div class="section-title">
         <div class="section-dot sage"></div>
-        <h3>5. Step 2: /goal — 功能实现</h3>
+        <h3>6. Step 2: /goal — 功能实现</h3>
       </div>
       <p>
         <code class="inline-code">/goal</code> 是 Claude Code 内置的目标驱动开发模式。选择一个 Issue 卡片，Agent 会理解验收标准并端到端实现。
@@ -877,11 +950,11 @@
       </div>
     </div>
 
-    <!-- Section 6: /review-it -->
+    <!-- Section 7: /review-it -->
     <div class="section" id="step-review">
       <div class="section-title">
         <div class="section-dot plum"></div>
-        <h3>6. Step 3: /review-it — 代码审查</h3>
+        <h3>7. Step 3: /review-it — 代码审查</h3>
       </div>
       <p>
         <code class="inline-code">/review-it</code> 在代码提交前进行自动化审查，发现潜在问题并迭代修复，直到审查通过。
@@ -921,11 +994,11 @@
       </div>
     </div>
 
-    <!-- Section 7: /ship-it -->
+    <!-- Section 8: /ship-it -->
     <div class="section" id="step-ship">
       <div class="section-title">
         <div class="section-dot blue"></div>
-        <h3>7. Step 4: /ship-it — 提交交付</h3>
+        <h3>8. Step 4: /ship-it — 提交交付</h3>
       </div>
       <p>
         <code class="inline-code">/ship-it</code> 是实现完成后的标准收尾流程：提交代码、创建 PR、合入、添加实现总结、关闭 Issue。
@@ -971,11 +1044,11 @@
       </div>
     </div>
 
-    <!-- Section 8: /humanize-it -->
+    <!-- Section 9: /humanize-it -->
     <div class="section" id="step-humanize">
       <div class="section-title">
         <div class="section-dot amber"></div>
-        <h3>8. Bonus: /humanize-it — 去 AI 味改写</h3>
+        <h3>9. Bonus: /humanize-it — 去 AI 味改写</h3>
       </div>
       <p>
         <code class="inline-code">/humanize-it</code> 对指定文档进行去 AI 味的改写。根据文档类型自动选择最合适的人性化策略，迭代改写直到效果达标。
@@ -1022,11 +1095,11 @@
       </div>
     </div>
 
-    <!-- Section 9: /listenhub-tts -->
+    <!-- Section 10: /listenhub-tts -->
     <div class="section" id="step-tts">
       <div class="section-title">
         <div class="section-dot teal"></div>
-        <h3>9. Bonus: /listenhub-tts — 文本转语音</h3>
+        <h3>10. Bonus: /listenhub-tts — 文本转语音</h3>
       </div>
       <p>
         <code class="inline-code">/listenhub-tts</code> 使用 ListenHub API 将文本转换为语音。支持三种合成模式，覆盖从短文本到长文本的全场景。
@@ -1067,11 +1140,11 @@
       </div>
     </div>
 
-    <!-- Section 10: /insight-diagram -->
+    <!-- Section 11: /insight-diagram -->
     <div class="section" id="step-diagram">
       <div class="section-title">
         <div class="section-dot violet"></div>
-        <h3>10. Bonus: /insight-diagram — UML 与架构图生成</h3>
+        <h3>11. Bonus: /insight-diagram — UML 与架构图生成</h3>
       </div>
       <p>
         <code class="inline-code">/insight-diagram</code> 为任意项目生成 UML 图、架构图和流程图。分析代码库后让用户选择要生成的图表类型，渲染为 HTML+SVG 并保存到 <code class="inline-code">docs/</code> 目录。
@@ -1130,11 +1203,11 @@
       </div>
     </div>
 
-    <!-- Section 11: Refactor -->
+    <!-- Section 12: Refactor -->
     <div class="section" id="step-refactor">
       <div class="section-title">
         <div class="section-dot coral"></div>
-        <h3>11. Bonus: /refactor — 专家级代码重构</h3>
+        <h3>12. Bonus: /refactor — 专家级代码重构</h3>
       </div>
       <p>
         <code class="inline-code">/refactor</code> 基于 Martin Fowler《重构》第 2 版的完整目录，提供专家级代码重构能力。通过识别代码坏味道并应用经过验证的重构手法，在不改变外部行为的前提下改善代码的可维护性、可读性和结构。
@@ -1215,11 +1288,11 @@
       </div>
     </div>
 
-    <!-- Section 12: Modern-Go -->
+    <!-- Section 13: Modern-Go -->
     <div class="section" id="step-modern-go">
       <div class="section-title">
         <div class="section-dot teal"></div>
-        <h3>12. Bonus: /modern-go — Go 代码现代化改造</h3>
+        <h3>13. Bonus: /modern-go — Go 代码现代化改造</h3>
       </div>
       <p>
         <code class="inline-code">/modern-go</code> 自动将 Go 代码升级为现代写法和 API，类似 <code class="inline-code">go fix</code>。扫描 <code class="inline-code">go.mod</code> 检测 Go 版本，对 Go 源文件批量应用版本适配的转换规则，覆盖从 Go 1.0 到 1.26+ 的 35+ 条规则。
@@ -1275,11 +1348,11 @@
       </div>
     </div>
 
-    <!-- Section 13: Notes -->
+    <!-- Section 14: Notes -->
     <div class="section" id="step-note-it">
       <div class="section-title">
         <div class="section-dot slate"></div>
-        <h3>13. Bonus: /note-it — 实现笔记记录</h3>
+        <h3>14. Bonus: /note-it — 实现笔记记录</h3>
       </div>
       <p>
         <code class="inline-code">/note-it</code> 在代码实现和审查完成后，为当前 Issue 生成一份结构化实现笔记，记录设计决策、偏离、权衡和待确认问题，输出为 HTML 格式保存到 <code class="inline-code">docs/</code> 目录。
@@ -1320,11 +1393,11 @@
       </div>
     </div>
 
-    <!-- Section 14: /code-to-spec -->
+    <!-- Section 15: /code-to-spec -->
     <div class="section" id="step-code-to-spec">
       <div class="section-title">
         <div class="section-dot sage"></div>
-        <h3>14. Bonus: /code-to-spec — 逆向生成规格文档</h3>
+        <h3>15. Bonus: /code-to-spec — 逆向生成规格文档</h3>
       </div>
       <p>
         <code class="inline-code">/code-to-spec</code> 分析一个既有项目的代码、配置、测试和结构，反向生成一份完整的 SPEC（规格）文档。输出可用于重建项目、新人入职或对比实际实现与预期设计。
@@ -1379,20 +1452,20 @@
       </div>
     </div>
 
-    <!-- Section 15: Platforms -->
+    <!-- Section 16: Platforms -->
     <div class="section" id="platforms">
       <div class="section-title">
         <div class="section-dot slate"></div>
-        <h3>15. 支持的平台</h3>
+        <h3>16. 支持的平台</h3>
       </div>
       <p>Goal Workflow 的技能可在多个 AI Coding Agent 中使用：</p>
 
       <table>
-        <tr><th>Agent</th><th>/prd</th><th>/goal</th><th>/review-it</th><th>/note-it</th><th>/ship-it</th><th>/refactor</th><th>/modern-go</th><th>/code-to-spec</th><th>/humanize-it</th><th>/listenhub-tts</th><th>/insight-diagram</th></tr>
-        <tr><td>Claude Code</td><td>&#10003;</td><td>&#10003; (内置)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>Codex</td><td>&#10003;</td><td>&#10003; (--goal)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>OpenCode</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>DeepSeek TUI</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><th>Agent</th><th>/prd</th><th>/prd-to-spec</th><th>/goal</th><th>/review-it</th><th>/note-it</th><th>/ship-it</th><th>/refactor</th><th>/modern-go</th><th>/code-to-spec</th><th>/humanize-it</th><th>/listenhub-tts</th><th>/insight-diagram</th></tr>
+        <tr><td>Claude Code</td><td>&#10003;</td><td>&#10003;</td><td>&#10003; (内置)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>Codex</td><td>&#10003;</td><td>&#10003;</td><td>&#10003; (--goal)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>OpenCode</td><td>&#10003;</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>DeepSeek TUI</td><td>&#10003;</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
       </table>
 
       <h3>Issue 创建平台</h3>
@@ -1404,11 +1477,11 @@
       </table>
     </div>
 
-    <!-- Section 16: FAQ -->
+    <!-- Section 17: FAQ -->
     <div class="section" id="faq">
       <div class="section-title">
         <div class="section-dot terracotta"></div>
-        <h3>16. FAQ</h3>
+        <h3>17. FAQ</h3>
       </div>
 
       <h3>Q: 必须按顺序使用四个步骤吗？</h3>
