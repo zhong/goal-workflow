@@ -698,7 +698,7 @@
         <div class="section-dot terracotta"></div>
         <h3>3. 工作流总览</h3>
       </div>
-      <p>四步闭环，从需求到交付：</p>
+      <p>五步闭环，从需求到交付：</p>
 
       <div style="text-align: center; margin: 1.5rem 0;">
         <img src="workflow.png" alt="Goal Workflow Infographic" style="max-width: 100%; border-radius: 12px; border: 1px solid #E8E4DE; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
@@ -708,6 +708,11 @@
         <div class="flow-step">
           <span class="step-num n1">1</span>
           /prd
+        </div>
+        <span class="flow-connector">&rarr;</span>
+        <div class="flow-step">
+          <span class="step-num n5">1.5</span>
+          /prd-to-spec
         </div>
         <span class="flow-connector">&rarr;</span>
         <div class="flow-step">
@@ -738,50 +743,62 @@
           </defs>
           <rect width="100%" height="100%" fill="url(#dots-flow)" />
 
-          <!-- Step 1 -->
-          <rect x="68" y="40" width="155" height="140" rx="10" fill="#FFF5F0" stroke="#D97757" stroke-width="1.5"/>
-          <text x="146" y="68" fill="#D97757" font-size="11" font-weight="700" text-anchor="middle">Step 1: /prd</text>
-          <text x="146" y="90" fill="#4A4540" font-size="9" text-anchor="middle">描述功能想法</text>
-          <text x="146" y="108" fill="#4A4540" font-size="9" text-anchor="middle">澄清问题 (3-5个)</text>
-          <text x="146" y="126" fill="#4A4540" font-size="9" text-anchor="middle">生成结构化 PRD</text>
-          <text x="146" y="144" fill="#4A4540" font-size="9" text-anchor="middle">拆解为 Issue 卡片</text>
-          <text x="146" y="168" fill="#8B8680" font-size="8" text-anchor="middle">Output: PRD + Issues</text>
+          <!-- Step 1: /prd -->
+          <rect x="10" y="40" width="155" height="140" rx="10" fill="#FFF5F0" stroke="#D97757" stroke-width="1.5"/>
+          <text x="88" y="68" fill="#D97757" font-size="11" font-weight="700" text-anchor="middle">Step 1: /prd</text>
+          <text x="88" y="90" fill="#4A4540" font-size="9" text-anchor="middle">描述功能想法</text>
+          <text x="88" y="108" fill="#4A4540" font-size="9" text-anchor="middle">澄清问题 (3-5个)</text>
+          <text x="88" y="126" fill="#4A4540" font-size="9" text-anchor="middle">生成结构化 PRD</text>
+          <text x="88" y="144" fill="#4A4540" font-size="9" text-anchor="middle">拆解为 Issue 卡片</text>
+          <text x="88" y="168" fill="#8B8680" font-size="8" text-anchor="middle">Output: PRD + Issues</text>
 
-          <!-- Arrow 1-2 -->
-          <line x1="223" y1="110" x2="291" y2="110" stroke="#C5C0BA" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <!-- Arrow 1→1.5 -->
+          <line x1="165" y1="110" x2="200" y2="110" stroke="#C5C0BA" stroke-width="1.5" marker-end="url(#arrowhead)"/>
 
-          <!-- Step 2 -->
-          <rect x="291" y="40" width="155" height="140" rx="10" fill="#F5F8F6" stroke="#5B8A72" stroke-width="1.5"/>
-          <text x="369" y="68" fill="#5B8A72" font-size="11" font-weight="700" text-anchor="middle">Step 2: /goal</text>
-          <text x="369" y="90" fill="#4A4540" font-size="9" text-anchor="middle">选择一个 Issue</text>
-          <text x="369" y="108" fill="#4A4540" font-size="9" text-anchor="middle">理解验收标准</text>
-          <text x="369" y="126" fill="#4A4540" font-size="9" text-anchor="middle">端到端实现代码</text>
-          <text x="369" y="144" fill="#4A4540" font-size="9" text-anchor="middle">运行测试验证</text>
-          <text x="369" y="168" fill="#8B8680" font-size="8" text-anchor="middle">Output: Working code</text>
+          <!-- Step 1.5: /prd-to-spec -->
+          <rect x="200" y="40" width="155" height="140" rx="10" fill="#FFF5F0" stroke="#D4A843" stroke-width="1.5" stroke-dasharray="4 2"/>
+          <text x="278" y="68" fill="#D4A843" font-size="11" font-weight="700" text-anchor="middle">1.5: /prd-to-spec</text>
+          <text x="278" y="90" fill="#4A4540" font-size="9" text-anchor="middle">读取 PRD 文档</text>
+          <text x="278" y="108" fill="#4A4540" font-size="9" text-anchor="middle">技术澄清问题</text>
+          <text x="278" y="126" fill="#4A4540" font-size="9" text-anchor="middle">生成技术 SPEC</text>
+          <text x="278" y="144" fill="#4A4540" font-size="9" text-anchor="middle">架构+API+数据模型</text>
+          <text x="278" y="168" fill="#8B8680" font-size="8" text-anchor="middle">Output: SPEC (optional)</text>
 
-          <!-- Arrow 2-3 -->
-          <line x1="446" y1="110" x2="514" y2="110" stroke="#C5C0BA" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <!-- Arrow 1.5→2 -->
+          <line x1="355" y1="110" x2="390" y2="110" stroke="#C5C0BA" stroke-width="1.5" marker-end="url(#arrowhead)"/>
 
-          <!-- Step 3 -->
-          <rect x="514" y="40" width="155" height="140" rx="10" fill="#F5F3F8" stroke="#8B6F8A" stroke-width="1.5"/>
-          <text x="592" y="68" fill="#8B6F8A" font-size="11" font-weight="700" text-anchor="middle">Step 3: /review-it</text>
-          <text x="592" y="90" fill="#4A4540" font-size="9" text-anchor="middle">自动代码审查</text>
-          <text x="592" y="108" fill="#4A4540" font-size="9" text-anchor="middle">验证每个发现</text>
-          <text x="592" y="126" fill="#4A4540" font-size="9" text-anchor="middle">修复问题</text>
-          <text x="592" y="144" fill="#4A4540" font-size="9" text-anchor="middle">重审直到通过</text>
-          <text x="592" y="168" fill="#8B8680" font-size="8" text-anchor="middle">Output: Clean review</text>
+          <!-- Step 2: /goal -->
+          <rect x="390" y="40" width="155" height="140" rx="10" fill="#F5F8F6" stroke="#5B8A72" stroke-width="1.5"/>
+          <text x="468" y="68" fill="#5B8A72" font-size="11" font-weight="700" text-anchor="middle">Step 2: /goal</text>
+          <text x="468" y="90" fill="#4A4540" font-size="9" text-anchor="middle">选择一个 Issue</text>
+          <text x="468" y="108" fill="#4A4540" font-size="9" text-anchor="middle">理解验收标准</text>
+          <text x="468" y="126" fill="#4A4540" font-size="9" text-anchor="middle">端到端实现代码</text>
+          <text x="468" y="144" fill="#4A4540" font-size="9" text-anchor="middle">运行测试验证</text>
+          <text x="468" y="168" fill="#8B8680" font-size="8" text-anchor="middle">Output: Working code</text>
 
-          <!-- Arrow 3-4 -->
-          <line x1="669" y1="110" x2="737" y2="110" stroke="#C5C0BA" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <!-- Arrow 2→3 -->
+          <line x1="545" y1="110" x2="580" y2="110" stroke="#C5C0BA" stroke-width="1.5" marker-end="url(#arrowhead)"/>
 
-          <!-- Step 4 -->
-          <rect x="737" y="40" width="155" height="140" rx="10" fill="#F0F4F8" stroke="#4A6FA5" stroke-width="1.5"/>
-          <text x="815" y="68" fill="#4A6FA5" font-size="11" font-weight="700" text-anchor="middle">Step 4: /ship-it</text>
-          <text x="815" y="90" fill="#4A4540" font-size="9" text-anchor="middle">Commit (关联 Issue)</text>
-          <text x="815" y="108" fill="#4A4540" font-size="9" text-anchor="middle">Push branch</text>
-          <text x="815" y="126" fill="#4A4540" font-size="9" text-anchor="middle">Create PR &amp; Merge</text>
-          <text x="815" y="144" fill="#4A4540" font-size="9" text-anchor="middle">添加总结 &amp; 关闭 Issue</text>
-          <text x="815" y="168" fill="#8B8680" font-size="8" text-anchor="middle">Output: Merged &amp; Closed</text>
+          <!-- Step 3: /review-it -->
+          <rect x="580" y="40" width="155" height="140" rx="10" fill="#F5F3F8" stroke="#8B6F8A" stroke-width="1.5"/>
+          <text x="658" y="68" fill="#8B6F8A" font-size="11" font-weight="700" text-anchor="middle">Step 3: /review-it</text>
+          <text x="658" y="90" fill="#4A4540" font-size="9" text-anchor="middle">自动代码审查</text>
+          <text x="658" y="108" fill="#4A4540" font-size="9" text-anchor="middle">验证每个发现</text>
+          <text x="658" y="126" fill="#4A4540" font-size="9" text-anchor="middle">修复问题</text>
+          <text x="658" y="144" fill="#4A4540" font-size="9" text-anchor="middle">重审直到通过</text>
+          <text x="658" y="168" fill="#8B8680" font-size="8" text-anchor="middle">Output: Clean review</text>
+
+          <!-- Arrow 3→4 -->
+          <line x1="735" y1="110" x2="770" y2="110" stroke="#C5C0BA" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+          <!-- Step 4: /ship-it -->
+          <rect x="770" y="40" width="155" height="140" rx="10" fill="#F0F4F8" stroke="#4A6FA5" stroke-width="1.5"/>
+          <text x="848" y="68" fill="#4A6FA5" font-size="11" font-weight="700" text-anchor="middle">Step 4: /ship-it</text>
+          <text x="848" y="90" fill="#4A4540" font-size="9" text-anchor="middle">Commit (关联 Issue)</text>
+          <text x="848" y="108" fill="#4A4540" font-size="9" text-anchor="middle">Push branch</text>
+          <text x="848" y="126" fill="#4A4540" font-size="9" text-anchor="middle">Create PR &amp; Merge</text>
+          <text x="848" y="144" fill="#4A4540" font-size="9" text-anchor="middle">添加总结 &amp; 关闭 Issue</text>
+          <text x="848" y="168" fill="#8B8680" font-size="8" text-anchor="middle">Output: Merged &amp; Closed</text>
         </svg>
       </div>
 
@@ -792,6 +809,12 @@
           <td><code class="inline-code">/prd</code></td>
           <td>功能描述 / 产品想法</td>
           <td>PRD 文档 + Issue 卡片</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-plan">1.5 设计</span></td>
+          <td><code class="inline-code">/prd-to-spec</code></td>
+          <td>PRD 文档</td>
+          <td>技术 SPEC（可选）</td>
         </tr>
         <tr>
           <td><span class="badge badge-impl">2. 实现</span></td>

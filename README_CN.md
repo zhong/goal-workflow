@@ -5,7 +5,7 @@
 一套 AI 驱动的研发工作流，从需求到代码交付，全程在 Claude Code 中完成。
 
 ```
-/prd  →  /goal  →  /review-it  →  /ship-it
+/prd  →  /prd-to-spec  →  /goal  →  /review-it  →  /ship-it
 ```
 
 <p align="center">

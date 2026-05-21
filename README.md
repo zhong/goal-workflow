@@ -5,7 +5,7 @@ English | [简体中文](./README_CN.md)
 An AI-driven development workflow — from PRD to shipped code, all within Claude Code.
 
 ```
-/prd  →  /goal  →  /review-it  →  /ship-it
+/prd  →  /prd-to-spec  →  /goal  →  /review-it  →  /ship-it
 ```
 
 <p align="center">
