@@ -483,8 +483,9 @@
         <li><a href="#step-refactor">11. Bonus: /refactor — 专家级代码重构</a></li>
         <li><a href="#step-modern-go">12. Bonus: /modern-go — Go 代码现代化改造</a></li>
         <li><a href="#step-note-it">13. Bonus: /note-it — 实现笔记记录</a></li>
-        <li><a href="#platforms">14. 支持的平台</a></li>
-        <li><a href="#faq">15. FAQ</a></li>
+        <li><a href="#step-to-spec">14. Bonus: /to-spec — 逆向生成规格文档</a></li>
+        <li><a href="#platforms">15. 支持的平台</a></li>
+        <li><a href="#faq">16. FAQ</a></li>
       </ul>
     </div>
 
@@ -621,6 +622,18 @@
             <li>HTML 格式保存到 docs/</li>
           </ul>
         </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-dot sage"></div>
+            <h4>/to-spec</h4>
+          </div>
+          <p>逆向生成项目规格文档</p>
+          <ul>
+            <li>分析代码、配置、测试、结构</li>
+            <li>生成 12 章节完整 SPEC</li>
+            <li>支持多层深度分析</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -644,6 +657,7 @@
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">refactor</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">modern-go</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">note-it</span>
+<span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">to-spec</span>
 
 <span class="comment"># 全局安装（所有项目可用）</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">-g</span>
@@ -660,7 +674,7 @@
       </table>
 
       <div class="tip">
-        <strong>Tip：</strong>安装后在 Claude Code 中输入 <code class="inline-code">/prd</code>、<code class="inline-code">/review-it</code>、<code class="inline-code">/ship-it</code>、<code class="inline-code">/refactor</code>、<code class="inline-code">/modern-go</code>、<code class="inline-code">/note-it</code>、<code class="inline-code">/humanize-it</code>、<code class="inline-code">/listenhub-tts</code>、<code class="inline-code">/insight-diagram</code> 即可直接调用对应技能。
+        <strong>Tip：</strong>安装后在 Claude Code 中输入 <code class="inline-code">/prd</code>、<code class="inline-code">/review-it</code>、<code class="inline-code">/ship-it</code>、<code class="inline-code">/refactor</code>、<code class="inline-code">/modern-go</code>、<code class="inline-code">/note-it</code>、<code class="inline-code">/to-spec</code>、<code class="inline-code">/humanize-it</code>、<code class="inline-code">/listenhub-tts</code>、<code class="inline-code">/insight-diagram</code> 即可直接调用对应技能。
       </div>
     </div>
 
@@ -1306,20 +1320,79 @@
       </div>
     </div>
 
-    <!-- Section 14: Platforms -->
+    <!-- Section 14: /to-spec -->
+    <div class="section" id="step-to-spec">
+      <div class="section-title">
+        <div class="section-dot sage"></div>
+        <h3>14. Bonus: /to-spec — 逆向生成规格文档</h3>
+      </div>
+      <p>
+        <code class="inline-code">/to-spec</code> 分析一个既有项目的代码、配置、测试和结构，反向生成一份完整的 SPEC（规格）文档。输出可用于重建项目、新人入职或对比实际实现与预期设计。
+      </p>
+
+      <h3>触发方式</h3>
+      <pre><code><span class="comment"># 在 Claude Code 中直接输入</span>
+<span class="cmd">/to-spec</span>
+
+<span class="comment"># 或使用触发词</span>
+<span class="cmd">生成设计文档：</span><span class="value">分析当前项目并生成 SPEC</span>
+<span class="cmd">reverse spec：</span><span class="value">逆向工程这个项目的规格</span>
+<span class="cmd">生成规格文档：</span><span class="value">为 src/ 目录生成技术规格</span></code></pre>
+
+      <h3>分析深度</h3>
+      <table>
+        <tr><th>级别</th><th>内容</th><th>适用场景</th></tr>
+        <tr><td>Overview</td><td>架构 + 技术栈 + 核心功能</td><td>快速了解项目，~5 分钟</td></tr>
+        <tr><td>Standard（默认）</td><td>+ API 合约 + 数据模型 + 配置 + 依赖</td><td>全面理解项目</td></tr>
+        <tr><td>Deep</td><td>+ 内部模块交互 + 错误处理 + 测试覆盖</td><td>准备重构或重写</td></tr>
+      </table>
+
+      <h3>SPEC 文档结构（12 章节）</h3>
+      <table>
+        <tr><th>#</th><th>章节</th><th>内容</th></tr>
+        <tr><td>1</td><td>Overview</td><td>目的、核心功能、架构风格</td></tr>
+        <tr><td>2</td><td>Tech Stack</td><td>语言、框架、数据库、构建、测试、部署</td></tr>
+        <tr><td>3</td><td>Project Structure</td><td>目录树 + 各目录职责注释</td></tr>
+        <tr><td>4</td><td>Data Model</td><td>核心实体、字段、关系、状态流转</td></tr>
+        <tr><td>5</td><td>API Surface</td><td>端点/命令/函数表 + 请求响应 Schema</td></tr>
+        <tr><td>6</td><td>Configuration</td><td>环境变量、配置文件、Feature Flags</td></tr>
+        <tr><td>7</td><td>External Dependencies</td><td>第三方服务、基础设施、失败影响</td></tr>
+        <tr><td>8</td><td>Business Rules</td><td>不变量、校验规则、业务逻辑约束</td></tr>
+        <tr><td>9</td><td>Non-Functional</td><td>性能、安全、错误处理模式</td></tr>
+        <tr><td>10</td><td>Testing Strategy</td><td>测试框架、覆盖模式</td></tr>
+        <tr><td>11</td><td>Known Gaps</td><td>不确定项、假设、无测试区域</td></tr>
+        <tr><td>12</td><td>Appendix</td><td>依赖图、本地环境搭建步骤</td></tr>
+      </table>
+
+      <h3>工作流程</h3>
+      <ul class="step-list">
+        <li>确认分析范围（整个仓库 / 指定目录 / 特定方面）和深度级别</li>
+        <li>扫描项目：识别入口点、目录结构、依赖图、API 路由、数据模型</li>
+        <li>提取业务规则：从校验函数、Guard Clauses、测试断言中推导</li>
+        <li>合成生成 12 章节 SPEC 文档</li>
+        <li>展示供审阅，根据反馈迭代调整</li>
+        <li>保存到 <code class="inline-code">docs/SPEC.md</code> 或用户指定位置</li>
+      </ul>
+
+      <div class="tip">
+        <strong>Tip：</strong>对于大型项目（>500 文件），建议先用 Overview 深度快速了解全貌，再对感兴趣的模块用 Deep 深度分析。
+      </div>
+    </div>
+
+    <!-- Section 15: Platforms -->
     <div class="section" id="platforms">
       <div class="section-title">
         <div class="section-dot slate"></div>
-        <h3>14. 支持的平台</h3>
+        <h3>15. 支持的平台</h3>
       </div>
       <p>Goal Workflow 的技能可在多个 AI Coding Agent 中使用：</p>
 
       <table>
-        <tr><th>Agent</th><th>/prd</th><th>/goal</th><th>/review-it</th><th>/note-it</th><th>/ship-it</th><th>/refactor</th><th>/modern-go</th><th>/humanize-it</th><th>/listenhub-tts</th><th>/insight-diagram</th></tr>
-        <tr><td>Claude Code</td><td>&#10003;</td><td>&#10003; (内置)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>Codex</td><td>&#10003;</td><td>&#10003; (--goal)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>OpenCode</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>DeepSeek TUI</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><th>Agent</th><th>/prd</th><th>/goal</th><th>/review-it</th><th>/note-it</th><th>/ship-it</th><th>/refactor</th><th>/modern-go</th><th>/to-spec</th><th>/humanize-it</th><th>/listenhub-tts</th><th>/insight-diagram</th></tr>
+        <tr><td>Claude Code</td><td>&#10003;</td><td>&#10003; (内置)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>Codex</td><td>&#10003;</td><td>&#10003; (--goal)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>OpenCode</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>DeepSeek TUI</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
       </table>
 
       <h3>Issue 创建平台</h3>
@@ -1331,11 +1404,11 @@
       </table>
     </div>
 
-    <!-- Section 15: FAQ -->
+    <!-- Section 16: FAQ -->
     <div class="section" id="faq">
       <div class="section-title">
         <div class="section-dot terracotta"></div>
-        <h3>15. FAQ</h3>
+        <h3>16. FAQ</h3>
       </div>
 
       <h3>Q: 必须按顺序使用四个步骤吗？</h3>
