@@ -5,7 +5,7 @@ English | [简体中文](./README_CN.md)
 An AI-driven development workflow — from PRD to shipped code, all within Claude Code.
 
 ```
-/prd  →  /prd-to-spec  →  /goal  →  /review-it  →  /ship-it
+/prd  →  /prd-to-spec (optional)  →  /to-issues  →  /goal  →  /review-it  →  /ship-it
 ```
 
 <p align="center">
@@ -22,8 +22,9 @@ npx skills add smallnest/goal-workflow
 
 | Command | Description |
 |---------|-------------|
-| `/prd` | Generate PRD and decompose into Issues |
-| `/prd-to-spec` | Transform PRD into technical SPEC |
+| `/prd` | Generate PRD (requirements document) |
+| `/prd-to-spec` | Transform PRD into technical SPEC (optional) |
+| `/to-issues` | Decompose PRD/SPEC into Issues and create tickets |
 | `/goal` | Implement an Issue end-to-end (Claude Code built-in) |
 | `/review-it` | Automated code review with iterative fixes |
 | `/ship-it` | Commit, PR, merge, and close the Issue |

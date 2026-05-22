@@ -5,7 +5,7 @@
 一套 AI 驱动的研发工作流，从需求到代码交付，全程在 Claude Code 中完成。
 
 ```
-/prd  →  /prd-to-spec  →  /goal  →  /review-it  →  /ship-it
+/prd  →  /prd-to-spec (可选)  →  /to-issues  →  /goal  →  /review-it  →  /ship-it
 ```
 
 <p align="center">
@@ -22,8 +22,9 @@ npx skills add smallnest/goal-workflow
 
 | 命令 | 说明 |
 |------|------|
-| `/prd` | 生成 PRD 并拆解为 Issue |
-| `/prd-to-spec` | 将 PRD 转化为技术设计方案 |
+| `/prd` | 生成 PRD 需求文档 |
+| `/prd-to-spec` | 将 PRD 转化为技术设计方案（可选） |
+| `/to-issues` | 将 PRD/SPEC 拆解为 Issue 并创建卡片 |
 | `/goal` | 端到端实现 Issue（Claude Code 内置） |
 | `/review-it` | 自动化代码审查与迭代修复 |
 | `/ship-it` | 提交、PR、合入、关闭 Issue |
