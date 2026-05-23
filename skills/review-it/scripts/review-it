@@ -10,6 +10,7 @@ MODE="auto"
 BASE="origin/main"
 TESTS=""
 DRY_RUN=false
+AGENT="auto"
 
 usage() {
     cat <<EOF
@@ -18,8 +19,10 @@ Usage: review-it [options]
 Options:
   --mode auto|local|branch   Target selection. Default: auto.
       auto:   uncommitted if dirty, branch diff otherwise
-      local:  force /review on uncommitted changes
+      local:  force review on uncommitted changes
       branch: force diff review against base
+  --agent auto|claude|antigravity|codex
+                             Agent to target. Default: auto (detects running agent).
   --base REF                 Base ref for branch review. Default: origin/main.
   --parallel-tests CMD       Run tests in parallel with review.
   --dry-run                  Print what would be executed, don't run.
@@ -32,7 +35,8 @@ For branch mode, generates a git diff against the base and instructs
 Claude Code's /review to analyze it.
 
 Examples:
-  review-it                           # auto-detect mode
+  review-it                           # auto-detect mode and agent
+  review-it --agent antigravity       # use /code-review for Antigravity CLI
   review-it --mode local              # review uncommitted changes
   review-it --mode branch             # review branch vs origin/main
   review-it --parallel-tests "go test ./..."  # review + test in parallel
@@ -44,6 +48,7 @@ EOF
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --mode) MODE="$2"; shift 2 ;;
+        --agent) AGENT="$2"; shift 2 ;;
         --base) BASE="$2"; shift 2 ;;
         --parallel-tests) TESTS="$2"; shift 2 ;;
         --dry-run) DRY_RUN=true; shift ;;
@@ -62,6 +67,56 @@ IS_MAIN=false
 
 HAS_DIRTY=false
 [[ "$STAGED" -gt 0 || "$UNSTAGED" -gt 0 || "$UNTRACKED" -gt 0 ]] && HAS_DIRTY=true
+
+# --- Detect agent ---
+detect_agent() {
+    # Check environment variables / parent process
+    if [[ -n "${ANTIGRAVITY_CLI:-}" ]] || [[ -n "${GEMINI_CLI:-}" ]]; then
+        echo "antigravity"
+    elif [[ -n "${CLAUDE_CODE:-}" ]] || [[ -n "${CLAUDE_CLI:-}" ]]; then
+        echo "claude"
+    elif command -v codex &>/dev/null && [[ -n "${CODEX_CLI:-}" ]]; then
+        echo "codex"
+    else
+        # Default to claude as most common
+        echo "claude"
+    fi
+}
+
+if [[ "$AGENT" == "auto" ]]; then
+    DETECTED_AGENT=$(detect_agent)
+else
+    DETECTED_AGENT="$AGENT"
+fi
+
+# --- Resolve review command by agent ---
+review_cmd_for() {
+    local mode="$1"
+    local diff_file="$2"
+    case "$DETECTED_AGENT" in
+        antigravity)
+            if [[ "$mode" == "local" ]]; then
+                echo "/code-review"
+            else
+                echo "/code-review the changes in $diff_file against $BASE"
+            fi
+            ;;
+        codex)
+            if [[ "$mode" == "local" ]]; then
+                echo "codex review"
+            else
+                echo "codex review $diff_file"
+            fi
+            ;;
+        claude|*)
+            if [[ "$mode" == "local" ]]; then
+                echo "/review"
+            else
+                echo "/review the changes in $diff_file against $BASE"
+            fi
+            ;;
+    esac
+}
 
 # --- Resolve mode ---
 if [[ "$MODE" == "auto" ]]; then
@@ -92,14 +147,13 @@ if [[ "$REVIEW_MODE" == "branch" ]]; then
 fi
 
 # --- Build review command ---
+DIFF_FILE=""
 case "$REVIEW_MODE" in
     local)
-        REVIEW_CMD="/review"
         REVIEW_DESC="uncommitted changes"
         ;;
     branch)
         DIFF_FILE="/tmp/review-it-$$.diff"
-        REVIEW_CMD="/review the changes in $DIFF_FILE against $BASE"
         REVIEW_DESC="branch $CURRENT_BRANCH vs $BASE"
         ;;
     *)
@@ -108,9 +162,12 @@ case "$REVIEW_MODE" in
         ;;
 esac
 
+REVIEW_CMD=$(review_cmd_for "$REVIEW_MODE" "$DIFF_FILE")
+
 # --- Dry run ---
 if $DRY_RUN; then
     echo "mode:     $REVIEW_MODE"
+    echo "agent:    $DETECTED_AGENT"
     echo "target:   $REVIEW_DESC"
     echo "review:   $REVIEW_CMD"
     echo "dirty:    staged=$STAGED unstaged=$UNSTAGED untracked=$UNTRACKED"
@@ -125,7 +182,7 @@ if $DRY_RUN; then
 fi
 
 # --- Run ---
-echo "review-it: mode=$REVIEW_MODE target=$REVIEW_DESC"
+echo "review-it: mode=$REVIEW_MODE agent=$DETECTED_AGENT target=$REVIEW_DESC"
 echo ""
 
 # Generate diff for branch mode

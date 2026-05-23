@@ -1,6 +1,6 @@
 ---
 name: review-it
-description: "Code review closeout for Claude Code, Codex, OpenCode, and DeepSeek TUI: local dirty changes, branch vs main, parallel tests."
+description: "Code review closeout for Claude Code, Codex, OpenCode, DeepSeek TUI, and Antigravity CLI: local dirty changes, branch vs main, parallel tests."
 ---
 
 # CC Review
@@ -20,6 +20,7 @@ Use when:
 | Codex | `codex review` | Pass diff file or let it auto-detect |
 | OpenCode | `/review` | Same as Claude Code |
 | DeepSeek TUI | `/review` or manual diff review | Pass diff content for analysis |
+| Antigravity CLI | `/code-review` | Built-in slash command, auto-detects diff |
 
 ## Contract
 
@@ -65,6 +66,33 @@ base=$(gh pr view --json baseRefName --jq .baseRefName)
 git diff "origin/$base"...HEAD > /tmp/review-it.diff
 ```
 
+### Antigravity CLI (`agy`)
+
+Dirty local work:
+
+```
+/code-review
+```
+
+Branch/PR work — review all changes against base:
+
+```bash
+git diff origin/main...HEAD > /tmp/review-it.diff
+```
+
+Then pass the diff to the review command:
+
+```
+/code-review the changes in /tmp/review-it.diff against origin/main
+```
+
+If an open PR exists, use its actual base:
+
+```bash
+base=$(gh pr view --json baseRefName --jq .baseRefName)
+git diff "origin/$base"...HEAD > /tmp/review-it.diff
+```
+
 ### Codex
 
 ```bash
@@ -90,7 +118,7 @@ Tradeoff: tests may force code changes that stale the review. If tests or review
 
 Choose the right mode:
 
-- **Uncommitted changes** (staged/unstaged): use `/review` directly (or `codex review`)
+- **Uncommitted changes** (staged/unstaged): use `/review` directly (Antigravity: `/code-review`, Codex: `codex review`)
 - **Committed, not pushed**: use `git diff origin/main...HEAD` + review
 - **Pushed/PR**: same as committed, against the PR base
 - **Clean working tree**: skip review if there's truly nothing to review
@@ -104,6 +132,7 @@ Bundled helper script for parallel test + review orchestration:
 ```
 
 The helper:
+- Detects which agent is running (Claude Code, Antigravity CLI, Codex) via `--agent auto`
 - Detects whether to use uncommitted review or branch diff review
 - For branch mode: generates diff against `origin/main` (or PR base), then triggers review
 - Supports `--parallel-tests` for concurrent test + review execution
