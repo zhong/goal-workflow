@@ -522,8 +522,9 @@
         <li><a href="#step-modern-go">14. Bonus: /modern-go — Go Code Modernization</a></li>
         <li><a href="#step-note-it">15. Bonus: /note-it — Implementation Notes</a></li>
         <li><a href="#step-code-to-spec">16. Bonus: /code-to-spec — Reverse-Generate SPEC</a></li>
-        <li><a href="#platforms">17. Supported Platforms</a></li>
-        <li><a href="#faq">18. FAQ</a></li>
+        <li><a href="#step-smell">17. Bonus: /smell — Architecture Smell Detection</a></li>
+        <li><a href="#platforms">18. Supported Platforms</a></li>
+        <li><a href="#faq">19. FAQ</a></li>
       </ul>
     </div>
 
@@ -696,6 +697,18 @@
             <li>Supports multi-level deep analysis</li>
           </ul>
         </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-dot gold"></div>
+            <h4>/smell</h4>
+          </div>
+          <p>Architecture smell detection</p>
+          <ul>
+            <li>8 categories: architecture, coupling, cohesion, design, code, testing, naming, complexity</li>
+            <li>50+ anti-patterns and bad smells detected</li>
+            <li>Detailed markdown report with refactoring roadmap</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -722,6 +735,7 @@
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">modern-go</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">note-it</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">code-to-spec</span>
+<span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">smell</span>
 
 <span class="comment"># Global install (available for all projects)</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">-g</span>
@@ -738,7 +752,7 @@
       </table>
 
       <div class="tip">
-        <strong>Tip:</strong> After installation, type <code class="inline-code">/prd</code>, <code class="inline-code">/prd-to-spec</code>, <code class="inline-code">/to-issues</code>, <code class="inline-code">/review-it</code>, <code class="inline-code">/ship-it</code>, <code class="inline-code">/refactor</code>, <code class="inline-code">/modern-go</code>, <code class="inline-code">/note-it</code>, <code class="inline-code">/code-to-spec</code>, <code class="inline-code">/humanize-it</code>, <code class="inline-code">/listenhub-tts</code>, <code class="inline-code">/insight-diagram</code> in Claude Code to directly invoke the corresponding skill.
+        <strong>Tip:</strong> After installation, type <code class="inline-code">/prd</code>, <code class="inline-code">/prd-to-spec</code>, <code class="inline-code">/to-issues</code>, <code class="inline-code">/review-it</code>, <code class="inline-code">/ship-it</code>, <code class="inline-code">/refactor</code>, <code class="inline-code">/modern-go</code>, <code class="inline-code">/note-it</code>, <code class="inline-code">/code-to-spec</code>, <code class="inline-code">/humanize-it</code>, <code class="inline-code">/listenhub-tts</code>, <code class="inline-code">/insight-diagram</code>, <code class="inline-code">/smell</code> in Claude Code to directly invoke the corresponding skill.
       </div>
     </div>
 
@@ -1597,20 +1611,67 @@
       </div>
     </div>
 
-    <!-- Section 16: Platforms -->
+    <!-- Section 17: /smell -->
+    <div class="section" id="step-smell">
+      <div class="section-title">
+        <div class="section-dot gold"></div>
+        <h3>17. Bonus: /smell — Architecture Smell Detection</h3>
+      </div>
+      <p>
+        <code class="inline-code">/smell</code> analyzes a codebase for architectural anti-patterns, code smells, and algorithmic complexity hotspots. It produces a detailed markdown report with severity levels, evidence, and a refactoring roadmap.
+      </p>
+
+      <h3>How to Invoke</h3>
+      <pre><code><span class="comment"># Type directly in Claude Code</span>
+<span class="cmd">/smell</span>
+
+<span class="comment"># Or use trigger phrases</span>
+<span class="cmd">Code smell analysis: </span><span class="value">find code smells in this project</span>
+<span class="cmd">Architecture audit: </span><span class="value">detect architecture anti-patterns</span>
+<span class="cmd">Complexity scan: </span><span class="value">analyze code complexity and find hotspots</span></code></pre>
+
+      <h3>Detection Categories (8 Categories, 50+ Smells)</h3>
+      <table>
+        <tr><th>Category</th><th>Examples</th></tr>
+        <tr><td>Architecture</td><td>Big Ball of Mud, Distributed Monolith, Anemic Domain Model, CQRS Overuse, Violated Layer Boundaries</td></tr>
+        <tr><td>Coupling</td><td>Circular Dependencies, Content Coupling, Common Coupling (Global State), Stamp Coupling</td></tr>
+        <tr><td>Cohesion</td><td>God Object, Shotgun Surgery, Feature Envy, Data Clumps</td></tr>
+        <tr><td>Design</td><td>Leaky Abstractions, Static Cling, Service Locator Abuse, SOLID Violations</td></tr>
+        <tr><td>Code</td><td>Duplicated Code, Long Method, Primitive Obsession, Magic Numbers, Dead Code</td></tr>
+        <tr><td>Testing</td><td>Zero Test Coverage, Test-Implementation Coupling, Flaky Tests</td></tr>
+        <tr><td>Naming</td><td>Vague Names, Inconsistent Naming Conventions</td></tr>
+        <tr><td>Complexity</td><td>Nested Loops (O(n^2)), N+1 Queries, Repeated Linear Scan, Sort-in-Loop, Render Recompute</td></tr>
+      </table>
+
+      <h3>Report Structure</h3>
+      <ul class="step-list">
+        <li>Executive Summary with overall health assessment</li>
+        <li>Architectural Style Detected vs. Expected</li>
+        <li>Findings by severity (Critical / Warning / Suggestion)</li>
+        <li>Dependency Graph Analysis and Module Health Scorecard</li>
+        <li>Smell distribution across all 8 categories</li>
+        <li>Refactoring Roadmap (Immediate / Short-Term / Long-Term)</li>
+      </ul>
+
+      <div class="tip">
+        <strong>Tip:</strong> For quick checks, ask for "critical only" mode. Scope can be the full project, a specific module, or only recently changed files.
+      </div>
+    </div>
+
+    <!-- Section 18: Platforms -->
     <div class="section" id="platforms">
       <div class="section-title">
         <div class="section-dot slate"></div>
-        <h3>17. Supported Platforms</h3>
+        <h3>18. Supported Platforms</h3>
       </div>
       <p>Goal Workflow skills can be used across multiple AI Coding Agents:</p>
 
       <table>
-        <tr><th>Agent</th><th>/prd</th><th>/prd-to-spec</th><th>/to-issues</th><th>/goal</th><th>/review-it</th><th>/note-it</th><th>/ship-it</th><th>/refactor</th><th>/modern-go</th><th>/code-to-spec</th><th>/humanize-it</th><th>/listenhub-tts</th><th>/insight-diagram</th></tr>
-        <tr><td>Claude Code</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003; (Built-in)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>Codex</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003; (--goal)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>OpenCode</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>DeepSeek TUI</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><th>Agent</th><th>/prd</th><th>/prd-to-spec</th><th>/to-issues</th><th>/goal</th><th>/review-it</th><th>/note-it</th><th>/ship-it</th><th>/refactor</th><th>/modern-go</th><th>/code-to-spec</th><th>/smell</th><th>/humanize-it</th><th>/listenhub-tts</th><th>/insight-diagram</th></tr>
+        <tr><td>Claude Code</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003; (Built-in)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>Codex</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003; (--goal)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>OpenCode</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>DeepSeek TUI</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
       </table>
 
       <h3>Issue Creation Platforms</h3>
@@ -1626,7 +1687,7 @@
     <div class="section" id="faq">
       <div class="section-title">
         <div class="section-dot terracotta"></div>
-        <h3>18. FAQ</h3>
+        <h3>19. FAQ</h3>
       </div>
 
       <h3>Q: Do I have to use all steps in order?</h3>

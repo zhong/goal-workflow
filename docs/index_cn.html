@@ -522,8 +522,9 @@
         <li><a href="#step-modern-go">14. Bonus: /modern-go — Go 代码现代化改造</a></li>
         <li><a href="#step-note-it">15. Bonus: /note-it — 实现笔记记录</a></li>
         <li><a href="#step-code-to-spec">16. Bonus: /code-to-spec — 逆向生成规格文档</a></li>
-        <li><a href="#platforms">17. 支持的平台</a></li>
-        <li><a href="#faq">18. FAQ</a></li>
+        <li><a href="#step-smell">17. Bonus: /smell — 架构坏味道检测</a></li>
+        <li><a href="#platforms">18. 支持的平台</a></li>
+        <li><a href="#faq">19. FAQ</a></li>
       </ul>
     </div>
 
@@ -696,6 +697,18 @@
             <li>支持多层深度分析</li>
           </ul>
         </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-dot gold"></div>
+            <h4>/smell</h4>
+          </div>
+          <p>架构坏味道检测</p>
+          <ul>
+            <li>8 大类、50+ 反模式和坏味道</li>
+            <li>涵盖架构、耦合、内聚、设计、代码、测试、命名、复杂度</li>
+            <li>输出详细 Markdown 报告与重构路线图</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -722,6 +735,7 @@
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">modern-go</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">note-it</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">code-to-spec</span>
+<span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">--skill</span> <span class="value">smell</span>
 
 <span class="comment"># 全局安装（所有项目可用）</span>
 <span class="cmd">npx skills add smallnest/goal-workflow</span> <span class="flag">-g</span>
@@ -738,7 +752,7 @@
       </table>
 
       <div class="tip">
-        <strong>Tip：</strong>安装后在 Claude Code 中输入 <code class="inline-code">/prd</code>、<code class="inline-code">/prd-to-spec</code>、<code class="inline-code">/to-issues</code>、<code class="inline-code">/review-it</code>、<code class="inline-code">/ship-it</code>、<code class="inline-code">/refactor</code>、<code class="inline-code">/modern-go</code>、<code class="inline-code">/note-it</code>、<code class="inline-code">/code-to-spec</code>、<code class="inline-code">/humanize-it</code>、<code class="inline-code">/listenhub-tts</code>、<code class="inline-code">/insight-diagram</code> 即可直接调用对应技能。
+        <strong>Tip：</strong>安装后在 Claude Code 中输入 <code class="inline-code">/prd</code>、<code class="inline-code">/prd-to-spec</code>、<code class="inline-code">/to-issues</code>、<code class="inline-code">/review-it</code>、<code class="inline-code">/ship-it</code>、<code class="inline-code">/refactor</code>、<code class="inline-code">/modern-go</code>、<code class="inline-code">/note-it</code>、<code class="inline-code">/code-to-spec</code>、<code class="inline-code">/humanize-it</code>、<code class="inline-code">/listenhub-tts</code>、<code class="inline-code">/insight-diagram</code>、<code class="inline-code">/smell</code> 即可直接调用对应技能。
       </div>
     </div>
 
@@ -1597,20 +1611,67 @@
       </div>
     </div>
 
-    <!-- Section 16: Platforms -->
+    <!-- Section 17: /smell -->
+    <div class="section" id="step-smell">
+      <div class="section-title">
+        <div class="section-dot gold"></div>
+        <h3>17. Bonus: /smell — 架构坏味道检测</h3>
+      </div>
+      <p>
+        <code class="inline-code">/smell</code> 分析代码库中的架构反模式、代码坏味道和算法复杂度热点。输出详细的 Markdown 报告，包含严重级别、证据和重构路线图。
+      </p>
+
+      <h3>如何调用</h3>
+      <pre><code><span class="comment"># 在 Claude Code 中直接输入</span>
+<span class="cmd">/smell</span>
+
+<span class="comment"># 或使用触发短语</span>
+<span class="cmd">代码坏味道检测：</span><span class="value">找出代码坏味道</span>
+<span class="cmd">架构审计：</span><span class="value">检测架构反模式</span>
+<span class="cmd">复杂度扫描：</span><span class="value">分析代码复杂度</span></code></pre>
+
+      <h3>检测类别（8 大类，50+ 坏味道）</h3>
+      <table>
+        <tr><th>类别</th><th>示例</th></tr>
+        <tr><td>架构</td><td>大泥球、分布式单体、贫血模型、CQRS 滥用、层边界违反</td></tr>
+        <tr><td>耦合</td><td>循环依赖、内容耦合、公共耦合（全局状态）、印记耦合</td></tr>
+        <tr><td>内聚</td><td>上帝对象、霰弹式修改、依恋情结、数据泥团</td></tr>
+        <tr><td>设计</td><td>抽象泄露、静态粘连、服务定位器滥用、SOLID 违反</td></tr>
+        <tr><td>代码</td><td>重复代码、长方法、基本类型偏执、魔数、死代码</td></tr>
+        <tr><td>测试</td><td>零测试覆盖、测试-实现耦合、不稳定测试</td></tr>
+        <tr><td>命名</td><td>模糊命名、命名不一致</td></tr>
+        <tr><td>复杂度</td><td>嵌套循环 (O(n²))、N+1 查询、重复线性扫描、循环内排序、渲染重复计算</td></tr>
+      </table>
+
+      <h3>报告结构</h3>
+      <ul class="step-list">
+        <li>执行摘要与整体健康评估</li>
+        <li>检测到的架构风格 vs. 期望风格</li>
+        <li>按严重级别分类的发现（严重 / 警告 / 建议）</li>
+        <li>依赖图分析与模块健康评分卡</li>
+        <li>8 大类坏味道分布统计</li>
+        <li>重构路线图（立即可做 / 短期 / 长期）</li>
+      </ul>
+
+      <div class="tip">
+        <strong>Tip：</strong>快速检查时可指定"仅严重"模式。范围可选全项目、指定模块或仅最近变更文件。
+      </div>
+    </div>
+
+    <!-- Section 18: Platforms -->
     <div class="section" id="platforms">
       <div class="section-title">
         <div class="section-dot slate"></div>
-        <h3>17. 支持的平台</h3>
+        <h3>18. 支持的平台</h3>
       </div>
       <p>Goal Workflow 的技能可在多个 AI Coding Agent 中使用：</p>
 
       <table>
-        <tr><th>Agent</th><th>/prd</th><th>/prd-to-spec</th><th>/to-issues</th><th>/goal</th><th>/review-it</th><th>/note-it</th><th>/ship-it</th><th>/refactor</th><th>/modern-go</th><th>/code-to-spec</th><th>/humanize-it</th><th>/listenhub-tts</th><th>/insight-diagram</th></tr>
-        <tr><td>Claude Code</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003; (内置)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>Codex</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003; (--goal)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>OpenCode</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
-        <tr><td>DeepSeek TUI</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><th>Agent</th><th>/prd</th><th>/prd-to-spec</th><th>/to-issues</th><th>/goal</th><th>/review-it</th><th>/note-it</th><th>/ship-it</th><th>/refactor</th><th>/modern-go</th><th>/code-to-spec</th><th>/smell</th><th>/humanize-it</th><th>/listenhub-tts</th><th>/insight-diagram</th></tr>
+        <tr><td>Claude Code</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003; (内置)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>Codex</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003; (--goal)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>OpenCode</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+        <tr><td>DeepSeek TUI</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>—</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
       </table>
 
       <h3>Issue 创建平台</h3>
@@ -1622,11 +1683,11 @@
       </table>
     </div>
 
-    <!-- Section 17: FAQ -->
+    <!-- Section 19: FAQ -->
     <div class="section" id="faq">
       <div class="section-title">
         <div class="section-dot terracotta"></div>
-        <h3>18. FAQ</h3>
+        <h3>19. FAQ</h3>
       </div>
 
       <h3>Q: 必须按顺序使用所有步骤吗？</h3>

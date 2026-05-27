@@ -35,6 +35,7 @@ npx skills add smallnest/goal-workflow
 | `/code-to-spec` | 逆向生成项目规格文档 |
 | `/refactor` | 专家级代码重构（Fowler 目录） |
 | `/modern-go` | Go 代码现代化改造（35+ 条规则） |
+| `/smell` | 检测架构反模式、代码坏味道和复杂度热点 |
 
 ## 文档
 
