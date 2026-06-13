@@ -10,10 +10,10 @@ allowed-tools:
 
 # loop-it — 带检查点恢复的自动化 Issue 实现循环
 
-Fetch all open GitHub issues, resolve dependency order, implement each through the full pipeline (`/goal` → `/review-it` → `/note-it` → `/ship-it`), persist progress to state file, and resume from checkpoint on crash.
+Fetch all open GitHub issues, resolve dependency order, implement each through the full pipeline (内联实现 → `/review-it` → `/note-it` → `/ship-it`), persist progress to state file, and resume from checkpoint on crash.
 
-> **⚠️ 关键前提：`/goal` 是斜杠命令（slash command / UI command），不是 skill。**
-> 不要用 Skill 工具去调用 `/goal`——那会报错 `goal is a UI command, not a skill`，进而让你误以为流水线坏了，转而手工拼凑整条流程。`/goal` 必须作为斜杠命令直接发起（在交互中输入 `/goal {issue-number}`）。同理：`/review-it`、`/note-it`、`/ship-it` 是 skill，可经 Skill 工具调用；而 `/goal` 不是。遇到 `goal is a UI command, not a skill` 报错时，**这是预期的调用方式提示，而非流水线故障**——改用斜杠命令重试，切勿回退到手工替代。
+> **⚠️ 关键前提：实现步骤由 agent 内联自主完成，不依赖任何外部 `/goal` 命令。**
+> 本环境中不存在可调用的 `goal` 命令或 skill。因此「实现 issue」这一步**必须由 agent 内联完成**：直接读取该 issue 的标题与正文（含其引用的 PRD/SPEC 与验收条件），自主完成"理解需求 → 写/改代码 → 跑测试与 lint → 满足全部验收条件"的闭环，持续工作直到该 issue 的验收条件全部满足且测试/构建通过。**不要**尝试用 Skill 工具调用 `goal`（会报 `goal is a UI command, not a skill`），也**不要**因为找不到 `/goal` 而中止循环。`/review-it`、`/note-it`、`/ship-it` 仍是真实 skill，经 Skill 工具调用。
 
 ---
 
@@ -35,7 +35,7 @@ Fetch all open GitHub issues, resolve dependency order, implement each through t
 |        |                                      |
 |        否                                      |
 |        |                                      |
-|  /goal → 出错？→ 分类 → 恢复 → 重试            |
+|  内联实现 → 出错？→ 分类 → 恢复 → 重试        |
 |        |              |                       |
 |        |           失败 → 检查点, 下一个         |
 |        |                                      |
@@ -296,17 +296,19 @@ When blocked:
 
 Update state: `pending` → `skipped` or `pending` → `blocked`, write checkpoint, run **3h Branch Cleanup**, proceed to next issue.
 
-### 3c. Implement with /goal
+### 3c. Implement (内联自主实现)
 
-Update state: `pending` → `in_progress`, `phase: "goal"`, write checkpoint.
+Update state: `pending` → `in_progress`, `phase: "implement"`, write checkpoint.
 
-以**斜杠命令**方式发起实现（`/goal` 是 UI command，不是 skill——不要用 Skill 工具调用）：
+**由 agent 内联完成实现**（本环境无 `goal` 命令/skill 可调用，必须自己干）：
 
-```
-/goal {issue-number}
-```
+1. 读取该 issue 的标题与正文，提取需求与全部验收条件（Acceptance Criteria）；若正文引用了 PRD/SPEC 文件（如 `tasks/prd-*.md`），一并读取作为上下文
+2. 阅读相关现有代码，遵循项目既有风格、命名与依赖约定
+3. 实现/修改代码以满足全部验收条件
+4. 跑项目的构建、测试与 lint（如 `go build ./...`、`go vet ./...`、`go test ./...`）
+5. 持续工作直到该 issue 的验收条件**全部满足**且测试/构建/lint 通过
 
-> 若收到 `goal is a UI command, not a skill`，这是正确的调用约定提示，不是故障。直接以斜杠命令重发即可，**切勿改用手工流程替代 `/goal`**。
+> 不要尝试用 Skill 工具调用 `goal`（会报 `goal is a UI command, not a skill`），也不要因找不到 `/goal` 而中止——实现就是你自己内联完成的工作。
 
 **On success:**
 
@@ -314,7 +316,7 @@ Update state: `pending` → `in_progress`, `phase: "goal"`, write checkpoint.
 ✅ Issue #{number} implementation complete
 ```
 
-Write checkpoint with `phase: "goal_done"`.
+Write checkpoint with `phase: "implement_done"`.
 
 **On failure** — classify error (see 错误分类与恢复), apply recovery strategy, retry up to max attempts. If all retries exhausted:
 
@@ -449,7 +451,7 @@ When all issues processed, print final summary:
 | ci_failure | gh pr checks 失败 | 读 CI 日志，本地修复，push | 2 |
 | auth_failure | 403、401、认证错误 | 停止，告知用户重新认证 | 0 |
 | rate_limit | rate limit、secondary abuse | 等待 60s，重试 | 3 |
-| goal_unclear | /goal 无法解析 issue | 跳过，标记 failed | 0 |
+| issue_unclear | issue 无验收条件且无法推断需求 | 跳过，标记 failed | 0 |
 | network_error | timeout、connection refused | 等待 30s，重试 | 3 |
 | unknown | 其他情况 | 记录完整错误，跳过 | 0 |
 
@@ -514,9 +516,9 @@ Every key step MUST print a log line with emoji prefix:
 - **Checkpoint at every transition** — 每次状态变更写检查点，不仅仅在 ship 时
 - **State file integrity** — 损坏时警告用户，绝不自动覆盖
 - **State file in .gitignore** — 提醒用户添加 `.loop-state.json`
-- **Strictly sequential** — 一次只处理一个 issue（/goal 修改工作树，不能并行）
+- **Strictly sequential** — 一次只处理一个 issue（实现会修改工作树，不能并行）
 - **Skip dependency-blocked issues** — 依赖的 issue 未 shipped 时标记 `blocked`
-- **`/goal` 是斜杠命令** — 必须以斜杠命令发起，不可用 Skill 工具调用。报 `goal is a UI command, not a skill` 时改用斜杠命令重发，**绝不**手工拼凑流水线替代它
+- **实现由 agent 内联完成** — 本环境无 `goal` 命令/skill 可调用；「实现 issue」必须由 agent 自己读 issue、写代码、跑测试完成。报 `goal is a UI command, not a skill` 时不要中止，直接内联实现
 
 ---
 
@@ -528,7 +530,7 @@ Every key step MUST print a log line with emoji prefix:
 | All issues are questions | Skip all, report summary |
 | `gh` not authenticated | Print error, suggest `gh auth login`, exit |
 | Issue has no body | Use title only to decide skip/implement |
-| Issue references PRD/SPEC | Still implement via `/goal`, goal handles it |
+| Issue references PRD/SPEC | 读取被引用的 PRD/SPEC 作为上下文，agent 内联实现 |
 | Multiple issues depend on each other | Topological sort; dependencies already shipped first |
 | Git repo is dirty before starting | 前置检查 Check 3: stash/abort/force |
 | State file corrupted (invalid JSON) | 警告用户，提供从头开始或中止选项。绝不自动覆盖 |
@@ -539,7 +541,7 @@ Every key step MUST print a log line with emoji prefix:
 | Circular dependencies | 打印警告，按编号顺序打破循环 |
 | `/note-it` can't find issue number | 打印警告，跳过 /note-it，继续 /ship-it |
 | `.loop-state.json` is git-tracked | 警告用户添加到 .gitignore，继续 |
-| 调用 `/goal` 报 `goal is a UI command, not a skill` | 预期提示：`/goal` 是斜杠命令而非 skill。以斜杠命令 `/goal {N}` 直接重发，**不要**手工替代整条流水线 |
+| 误以为需要外部 `goal` 命令 | 本环境无此命令；「实现 issue」由 agent 内联完成（读 issue → 写代码 → 测试），不要中止循环 |
 
 ---
 
@@ -547,7 +549,7 @@ Every key step MUST print a log line with emoji prefix:
 
 ```
 /loop-it
-  ├── /goal       ← implement each issue（斜杠命令 / UI command，非 skill，不可用 Skill 工具调用）
+  ├── 内联实现   ← implement each issue（agent 自主读 issue、写代码、测试；非外部命令）
   ├── /review-it  ← review code before shipping（skill）
   ├── /note-it    ← capture implementation notes (best-effort)（skill）
   └── /ship-it    ← commit, PR, merge, close（skill）
@@ -556,5 +558,5 @@ Every key step MUST print a log line with emoji prefix:
 Part of the goal-workflow pipeline:
 
 ```
-/prd → /prd-to-spec → /to-issues → /loop-it (→ /goal → /review-it → /note-it → /ship-it)×N
+/prd → /prd-to-spec → /to-issues → /loop-it (→ 内联实现 → /review-it → /note-it → /ship-it)×N
 ```
