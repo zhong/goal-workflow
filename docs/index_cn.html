@@ -551,7 +551,7 @@
           <ul>
             <li>澄清问题 → 结构化 PRD</li>
             <li>拆解为独立可实施的 Issue</li>
-            <li>支持 GitHub / Local / iCafe</li>
+            <li>支持 GitHub / Local</li>
           </ul>
         </div>
         <div class="card">
@@ -574,7 +574,7 @@
           <p>拆解 PRD/SPEC 为 Issue 卡片</p>
           <ul>
             <li>User Stories → 可实施的 Issue</li>
-            <li>支持 GitHub / Local / iCafe</li>
+            <li>支持 GitHub / Local</li>
             <li>可独立使用，不依赖 /prd</li>
           </ul>
         </div>
@@ -957,7 +957,7 @@
         <li>展示 PRD 供审阅，确认或调整</li>
         <li>保存 PRD 到 <code class="inline-code">tasks/prd-[feature-name].md</code></li>
         <li>拆解 PRD 为 Issue 列表，展示供确认</li>
-        <li>选择创建模式（GitHub / Local / Baidu iCafe）并创建 Issue</li>
+        <li>选择创建模式（GitHub / Local）并创建 Issue</li>
       </ul>
 
       <h3>输出示例</h3>
@@ -1072,14 +1072,13 @@
         <tr><th>平台</th><th>工具</th><th>说明</th></tr>
         <tr><td>GitHub</td><td><code class="inline-code">gh issue create</code></td><td>需要 gh CLI 认证</td></tr>
         <tr><td>Local</td><td>Markdown 文件</td><td>保存到 <code class="inline-code">.autoresearch/issues/</code> 或自定义目录</td></tr>
-        <tr><td>Baidu iCafe</td><td><code class="inline-code">icafe-cli</code></td><td>需要 iCafe 空间参数</td></tr>
       </table>
 
       <h3>工作流程</h3>
       <ul class="step-list">
         <li>定位输入文件（自动检测或手动指定 PRD/SPEC）</li>
         <li>拆解为 Issue 列表，展示供用户审阅（可增删改合并）</li>
-        <li>选择创建平台（GitHub / Local / Baidu iCafe）</li>
+        <li>选择创建平台（GitHub / Local）</li>
         <li>逐条创建并输出汇总报告</li>
       </ul>
 
@@ -1738,7 +1737,6 @@
         <tr><th>平台</th><th>工具</th><th>说明</th></tr>
         <tr><td>GitHub</td><td><code class="inline-code">gh issue create</code></td><td>需要 gh CLI 认证</td></tr>
         <tr><td>Local</td><td>Markdown 文件</td><td>保存到本地目录</td></tr>
-        <tr><td>Baidu iCafe</td><td><code class="inline-code">icafe-cli</code></td><td>需要 iCafe 空间参数</td></tr>
       </table>
     </div>
 
@@ -1756,7 +1754,7 @@
       <p><code class="inline-code">/goal</code> 是 Claude Code 的内置功能，不需要额外安装。本工作流的 <code class="inline-code">/prd</code> 生成的 Issue 格式与 <code class="inline-code">/goal</code> 的期望输入完全匹配。</p>
 
       <h3>Q: 可以在非 GitHub 项目中使用吗？</h3>
-      <p>可以。<code class="inline-code">/prd</code> 支持将 Issue 保存为本地 Markdown 文件或创建到百度 iCafe。<code class="inline-code">/review-it</code> 只需要本地 git 仓库。<code class="inline-code">/ship-it</code> 目前依赖 GitHub（<code class="inline-code">gh</code> CLI）。</p>
+      <p>可以。<code class="inline-code">/prd</code> 支持将 Issue 保存为本地 Markdown 文件。<code class="inline-code">/review-it</code> 只需要本地 git 仓库。<code class="inline-code">/ship-it</code> 目前依赖 GitHub（<code class="inline-code">gh</code> CLI）。</p>
 
       <h3>Q: /review-it 和手动 code review 的区别？</h3>
       <p><code class="inline-code">/review-it</code> 是自动化的自查（self-review），在提交前发现明显问题。它不替代团队 code review，而是在 PR 创建前提升代码质量，减少 reviewer 需要指出的低级问题。</p>
